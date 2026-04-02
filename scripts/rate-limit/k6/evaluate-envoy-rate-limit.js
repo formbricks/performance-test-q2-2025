@@ -1,3 +1,5 @@
+// Evaluates Envoy-backed rate-limit behavior for smoke, burst, and soak profiles.
+
 import http from "k6/http";
 import { Counter } from "k6/metrics";
 import { sleep } from "k6";

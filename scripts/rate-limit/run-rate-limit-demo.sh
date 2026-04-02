@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Runs a guided demo sequence for the staging Envoy rate-limit routes and summarizes the results.
 
 set -euo pipefail
 
@@ -20,7 +21,7 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 
 usage() {
   cat <<'EOF'
-usage: scripts/rate-limit/demo.sh [preflight|public|management|negative|evidence|all]
+usage: scripts/rate-limit/run-rate-limit-demo.sh [preflight|public|management|negative|evidence|all]
 
 Required environment variables:
   ENVIRONMENT_ID   Staging environment ID for public client route checks

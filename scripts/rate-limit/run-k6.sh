@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Runs the k6-based Envoy rate-limit evaluation profiles against the configured target host.
 
 set -euo pipefail
 
@@ -29,7 +30,7 @@ esac
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-K6_SCRIPT="/workspace/scripts/rate-limit/k6/envoy-hardening.js"
+K6_SCRIPT="/workspace/scripts/rate-limit/k6/evaluate-envoy-rate-limit.js"
 
 build_env_args() {
   local key
@@ -57,7 +58,7 @@ run_single() {
     (
       cd "$REPO_ROOT"
       k6 run "${env_args[@]}" -e "PROFILE=$PROFILE" -e "SCENARIO=$scenario" \
-        "scripts/rate-limit/k6/envoy-hardening.js"
+        "scripts/rate-limit/k6/evaluate-envoy-rate-limit.js"
     ) | tee "$tmp_output"
     command_status="${PIPESTATUS[0]}"
     set -e

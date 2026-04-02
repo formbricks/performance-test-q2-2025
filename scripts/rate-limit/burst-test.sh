@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Fires repeated requests for a named rate-limit scenario and prints per-request classification output.
 
 set -euo pipefail
 

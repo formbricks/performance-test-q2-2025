@@ -2,8 +2,9 @@
 
 This directory holds the staging validation tooling for the Envoy rate-limit POC:
 
-- `burst-test.sh` and `demo.sh` are the operator-facing smoke/demo scripts.
-- `run-k6.sh` and `k6/envoy-hardening.js` are the repeatable hardening suite for `internal#1519`.
+- `burst-test.sh` and `run-rate-limit-demo.sh` are the operator-facing smoke/demo scripts.
+- `run-k6.sh` and `k6/evaluate-envoy-rate-limit.js` are the repeatable hardening suite for Envoy
+  rate-limit evaluation.
 
 Use the shell scripts for live demos and quick one-off checks. Use the `k6` suite for smoke, burst, and soak
 validation.
@@ -115,7 +116,7 @@ The shell scripts keep their existing role as quick operator tools:
 
 - `burst-test.sh`
   - request-by-request output for ad hoc checks or live debugging
-- `demo.sh`
+- `run-rate-limit-demo.sh`
   - guided staging demo flow used in meetings
 
 ## How the shell scripts classify responses
