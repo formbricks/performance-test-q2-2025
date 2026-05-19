@@ -1,0 +1,7 @@
+POD                                          NAME             CPU(cores)   MEMORY(bytes)
+formbricks-587b784596-qlf9g                  formbricks       4m           457Mi
+formbricks-587b784596-zgjn5                  formbricks       4m           472Mi
+formbricks-cube-75c545885c-fvq82             cube             1m           95Mi
+formbricks-hub-6d86596db9-7xckk              hub              1m           15Mi
+formbricks-hub-embeddings-6fccdb4db9-57hrs   hub-embeddings   5895m        3042Mi
+formbricks-hub-worker-65979d44f9-wlb7v       hub-worker       6m           9Mi

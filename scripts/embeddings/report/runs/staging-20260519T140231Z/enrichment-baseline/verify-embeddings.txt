@@ -1,0 +1,6 @@
+model|rows|min_dim|max_dim
+Alibaba-NLP/gte-multilingual-base|168|768|768
+(1 row)
+with_embedding|without_embedding|total_eligible
+168|131|299
+(1 row)

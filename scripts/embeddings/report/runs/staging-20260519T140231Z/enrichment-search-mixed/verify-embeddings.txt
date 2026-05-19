@@ -1,0 +1,5 @@
+model|rows|min_dim|max_dim
+(0 rows)
+with_embedding|without_embedding|total_eligible
+0|899|899
+(1 row)
