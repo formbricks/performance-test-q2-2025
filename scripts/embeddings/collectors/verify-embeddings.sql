@@ -19,8 +19,8 @@ SELECT
 FROM embeddings e
 JOIN feedback_records fr ON fr.id = e.feedback_record_id
 WHERE fr.tenant_id = :tenant
-  AND e.created_at >= :start::timestamptz
-  AND e.created_at <  :end::timestamptz
+  AND fr.created_at >= :start::timestamptz
+  AND fr.created_at <  :end::timestamptz
 GROUP BY e.model
 ORDER BY rows DESC;
 

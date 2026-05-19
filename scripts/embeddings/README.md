@@ -58,6 +58,43 @@ cp report/template.md report/runs/<ts>/report.md
 Total wall-clock time at the default profiles: roughly **45–60 minutes** of
 scenarios + ~5–10 min for cold-start measurements.
 
+## Formbricks staging quick start
+
+Use this when targeting the current EU EKS staging deployment. Keep the test
+tenant unique per run so results and cleanup are easy to isolate.
+
+```bash
+cd scripts/embeddings
+
+export NAMESPACE=formbricks-stage
+export MODEL=Alibaba-NLP/gte-multilingual-base
+export TENANT_ID="load-test-$(date -u +%Y%m%dT%H%M%SZ)"
+export POD_SELECTOR='app.kubernetes.io/instance=formbricks-stage'
+
+kubectl -n "$NAMESPACE" port-forward svc/formbricks-hub 18080:8080 &
+kubectl -n "$NAMESPACE" port-forward svc/formbricks-hub-embeddings 18081:8080 &
+
+export HUB_API_KEY="$(kubectl -n "$NAMESPACE" get secret formbricks-app-secrets -o jsonpath='{.data.HUB_API_KEY}' | base64 -d)"
+export TEI_API_KEY="$(kubectl -n "$NAMESPACE" get secret formbricks-app-secrets -o jsonpath='{.data.EMBEDDING_PROVIDER_API_KEY}' | base64 -d)"
+export DATABASE_URL="$(kubectl -n "$NAMESPACE" get secret formbricks-app-secrets -o jsonpath='{.data.DATABASE_URL}' | base64 -d)"
+
+# If using local k6, localhost works. If falling back to Docker, use host.docker.internal.
+export HUB_URL=http://host.docker.internal:18080
+export TEI_URL=http://host.docker.internal:18081/v1
+
+./run-k6.sh direct-tei smoke
+./run-k6.sh hub-enrichment smoke
+./run-k6.sh hub-search smoke
+
+# Staging-safe baseline examples. Tune RATE/DURATION before larger runs.
+RATE=1 DURATION=5m MAX_VUS=10 PROFILE=baseline ./run-full-suite.sh enrichment
+RATE=3 DURATION=5m MAX_VUS=20 PROFILE=mid SEARCH_PROFILE=warm ./run-full-suite.sh enrichment+search
+```
+
+Do not run `run-cold-start.sh cache-cold` against shared staging unless the
+team explicitly agrees to wipe the TEI model cache PVC. `cache-warm` is safe
+for rollout timing but still restarts the TEI pod.
+
 ## Layout
 
 ```

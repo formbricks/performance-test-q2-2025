@@ -33,7 +33,18 @@ esac
 : "${TEI_URL:?TEI_URL is required for the probe}"
 
 PVC="${PVC:-$TEI_DEPLOYMENT}"
+POD_SELECTOR="${POD_SELECTOR:-app.kubernetes.io/name=$TEI_DEPLOYMENT}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+original_replicas="$(kubectl -n "$NAMESPACE" get deployment "$TEI_DEPLOYMENT" -o jsonpath='{.spec.replicas}')"
+original_replicas="${original_replicas:-1}"
+restore_replicas=false
+
+restore_original_replicas() {
+  if [[ "$restore_replicas" == "true" ]]; then
+    kubectl -n "$NAMESPACE" scale deployment "$TEI_DEPLOYMENT" --replicas="$original_replicas" >/dev/null 2>&1 || true
+  fi
+}
+trap restore_original_replicas EXIT
 
 mkdir -p "$(dirname "$OUT")"
 
@@ -47,8 +58,9 @@ if [[ "$MODE" == "cache-cold" ]]; then
   read -r answer
   [[ "$answer" == "yes" ]] || { echo "aborted"; exit 1; }
   # Scale to zero so the volume can be safely emptied.
+  restore_replicas=true
   kubectl -n "$NAMESPACE" scale deployment "$TEI_DEPLOYMENT" --replicas=0
-  kubectl -n "$NAMESPACE" wait --for=delete pod -l "app.kubernetes.io/instance=$TEI_DEPLOYMENT" --timeout=120s || true
+  kubectl -n "$NAMESPACE" wait --for=delete pod -l "$POD_SELECTOR" --timeout=180s || true
   # Empty the PVC by binding it to a throwaway pod.
   kubectl -n "$NAMESPACE" run pvc-wiper --image=busybox --restart=Never --rm -i \
     --overrides="$(cat <<JSON
@@ -57,13 +69,14 @@ if [[ "$MODE" == "cache-cold" ]]; then
                            "volumeMounts":[{"name":"cache","mountPath":"/data"}]}] } }
 JSON
 )" -- sh
-  kubectl -n "$NAMESPACE" scale deployment "$TEI_DEPLOYMENT" --replicas=1
+  kubectl -n "$NAMESPACE" scale deployment "$TEI_DEPLOYMENT" --replicas="$original_replicas"
 else
   kubectl -n "$NAMESPACE" rollout restart deployment "$TEI_DEPLOYMENT"
 fi
 
 echo "waiting for deployment $TEI_DEPLOYMENT to become Ready..."
 kubectl -n "$NAMESPACE" rollout status deployment "$TEI_DEPLOYMENT" --timeout=15m
+restore_replicas=false
 
 ts_ready=$(date +%s)
 ready_seconds=$(( ts_ready - ts_start ))

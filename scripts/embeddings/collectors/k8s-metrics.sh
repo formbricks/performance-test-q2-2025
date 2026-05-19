@@ -36,42 +36,50 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Pre-build a pod→restart lookup we refresh every sample.
 while true; do
   ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  pods_file="/tmp/k8s-pods.$$"
+  top_file="/tmp/k8s-top.$$"
 
   # restart counts and phase per pod
-  declare -A restarts phase
-  while IFS=$'\t' read -r pod r p; do
-    [[ -z "$pod" ]] && continue
-    restarts["$pod"]="$r"
-    phase["$pod"]="$p"
-  done < <(
-    kubectl -n "$NAMESPACE" get pods "${selector_args[@]}" \
-      -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.containerStatuses[0].restartCount}{"\t"}{.status.phase}{"\n"}{end}' \
-      2>/dev/null || true
-  )
+  kubectl -n "$NAMESPACE" get pods "${selector_args[@]}" \
+    -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.containerStatuses[0].restartCount}{"\t"}{.status.phase}{"\n"}{end}' \
+    >"$pods_file" 2>/dev/null || true
 
   # cpu/mem per pod-container
-  if kubectl -n "$NAMESPACE" top pods --containers --no-headers "${selector_args[@]}" >/tmp/k8s-top.$$ 2>/dev/null; then
-    while read -r pod container cpu mem _rest; do
-      [[ -z "$pod" ]] && continue
-      cpu_milli="${cpu%m}"
-      [[ "$cpu_milli" == "$cpu" ]] && cpu_milli=$(( ${cpu:-0} * 1000 ))
-      mem_mi="${mem%Mi}"
-      [[ "$mem_mi" == "$mem" ]] && mem_mi="${mem%Gi}" && mem_mi=$(( ${mem_mi:-0} * 1024 ))
-      echo "${ts},${pod},${container},${cpu_milli},${mem_mi},${restarts[$pod]:-0},${phase[$pod]:-unknown}" >>"$OUT"
-    done </tmp/k8s-top.$$
-    rm -f /tmp/k8s-top.$$
+  if kubectl -n "$NAMESPACE" top pods --containers --no-headers "${selector_args[@]}" >"$top_file" 2>/dev/null; then
+    awk -v ts="$ts" '
+      BEGIN { FS = "[ \t]+"; OFS = "," }
+      function cpu_milli(v, n) {
+        n = v
+        if (v ~ /m$/) { sub(/m$/, "", n); return n + 0 }
+        if (v ~ /u$/) { sub(/u$/, "", n); return int((n + 999) / 1000) }
+        if (v ~ /n$/) { sub(/n$/, "", n); return int((n + 999999) / 1000000) }
+        return (n + 0) * 1000
+      }
+      function memory_mi(v, n) {
+        n = v
+        if (v ~ /Mi$/) { sub(/Mi$/, "", n); return n + 0 }
+        if (v ~ /Gi$/) { sub(/Gi$/, "", n); return (n + 0) * 1024 }
+        if (v ~ /Ki$/) { sub(/Ki$/, "", n); return int((n + 1023) / 1024) }
+        return int((n + 1048575) / 1048576)
+      }
+      FNR == NR {
+        restarts[$1] = $2
+        phase[$1] = $3
+        next
+      }
+      NF >= 4 {
+        pod = $1
+        print ts, pod, $2, cpu_milli($3), memory_mi($4), (pod in restarts ? restarts[pod] : 0), (pod in phase ? phase[pod] : "unknown")
+      }
+    ' "$pods_file" "$top_file" >>"$OUT"
   else
     # metrics-server may be unavailable. Still emit a row with empties so we
     # can correlate restart/phase changes against time.
-    for pod in "${!phase[@]}"; do
-      echo "${ts},${pod},,,,${restarts[$pod]:-0},${phase[$pod]:-unknown}" >>"$OUT"
-    done
+    awk -v ts="$ts" 'BEGIN { FS = "\t"; OFS = "," } NF >= 1 { print ts, $1, "", "", "", ($2 ? $2 : 0), ($3 ? $3 : "unknown") }' "$pods_file" >>"$OUT"
   fi
 
-  unset restarts phase
-  declare -A restarts phase
+  rm -f "$pods_file" "$top_file"
   sleep "$INTERVAL"
 done

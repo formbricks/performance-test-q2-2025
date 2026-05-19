@@ -71,7 +71,12 @@ fi
 echo "== k6 scenario=$SCENARIO profile=$PROFILE =="
 
 if command -v k6 >/dev/null 2>&1; then
-  (cd "$REPO_ROOT" && k6 run "${env_args[@]}" "${extra_args[@]}" "$K6_SCRIPT_REL")
+  k6_args=(run "${env_args[@]}")
+  if (( ${#extra_args[@]} > 0 )); then
+    k6_args+=("${extra_args[@]}")
+  fi
+  k6_args+=("$K6_SCRIPT_REL")
+  (cd "$REPO_ROOT" && k6 "${k6_args[@]}")
 else
   if ! docker info >/dev/null 2>&1; then
     echo "docker is required for the k6 fallback, but the Docker daemon is not reachable" >&2

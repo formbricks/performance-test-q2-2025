@@ -13,6 +13,7 @@
 // Optional env:
 //   PROFILE              — smoke | latency | sweep | burst (default: smoke)
 //   TEI_USE_QA_PREFIX    — "true" (default) | "false"
+//   RATE/DURATION/MAX_VUS — override the latency profile shape
 //
 // Run:
 //   k6 run -e TEI_URL=... -e TEI_API_KEY=... -e MODEL=... -e PROFILE=latency \
@@ -29,6 +30,9 @@ const TEI_API_KEY = __ENV.TEI_API_KEY || "";
 const MODEL = __ENV.MODEL || "Alibaba-NLP/gte-multilingual-base";
 const USE_QA_PREFIX = (__ENV.TEI_USE_QA_PREFIX || "true").toLowerCase() === "true";
 const PROFILE = __ENV.PROFILE || "smoke";
+const RATE = __ENV.RATE ? Number(__ENV.RATE) : null;
+const DURATION = __ENV.DURATION || null;
+const MAX_VUS = __ENV.MAX_VUS ? Number(__ENV.MAX_VUS) : null;
 
 if (!TEI_URL) throw new Error("TEI_URL is required");
 
@@ -36,6 +40,17 @@ const latencyShort = new Trend("latency_short", true);
 const latencyMedium = new Trend("latency_medium", true);
 const latencyLong = new Trend("latency_long", true);
 const dimMismatch = new Rate("dim_mismatch");
+
+function constantArrival(rate, duration, maxVUs) {
+  return {
+    executor: "constant-arrival-rate",
+    rate,
+    timeUnit: "1s",
+    duration,
+    preAllocatedVUs: Math.max(2, Math.ceil(rate)),
+    maxVUs,
+  };
+}
 
 const PROFILES = {
   smoke: {
@@ -50,14 +65,7 @@ const PROFILES = {
   },
   latency: {
     scenarios: {
-      warm_serial: {
-        executor: "constant-arrival-rate",
-        rate: 2,
-        timeUnit: "1s",
-        duration: "2m",
-        preAllocatedVUs: 2,
-        maxVUs: 5,
-      },
+      warm_serial: constantArrival(RATE ?? 2, DURATION ?? "2m", MAX_VUS ?? 20),
     },
   },
   sweep: {

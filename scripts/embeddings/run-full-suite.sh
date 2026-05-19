@@ -53,12 +53,16 @@ START_ISO="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 echo "$START_ISO" >"$RUN_DIR/start.txt"
 
 cleanup_pids=()
-cleanup() {
+stop_collectors() {
   for pid in "${cleanup_pids[@]:-}"; do
     [[ -n "$pid" ]] && kill "$pid" 2>/dev/null || true
   done
+  for pid in "${cleanup_pids[@]:-}"; do
+    [[ -n "$pid" ]] && wait "$pid" 2>/dev/null || true
+  done
+  cleanup_pids=()
 }
-trap cleanup EXIT
+trap stop_collectors EXIT
 
 start_collectors() {
   if [[ -n "${DATABASE_URL:-}" ]]; then
@@ -97,42 +101,69 @@ run_post_sql() {
     >"$RUN_DIR/verify-embeddings.txt" 2>&1 || true
 }
 
+run_k6_with_tee() {
+  local scenario="$1"
+  local profile="$2"
+  local json_out="$3"
+  local log_out="$4"
+  local rc
+
+  set +e
+  "$SCRIPT_DIR/run-k6.sh" "$scenario" "$profile" "$json_out" 2>&1 | tee "$log_out"
+  rc=${PIPESTATUS[0]}
+  set -e
+
+  return "$rc"
+}
+
+run_k6_to_log() {
+  local scenario="$1"
+  local profile="$2"
+  local json_out="$3"
+  local log_out="$4"
+  local rc
+
+  set +e
+  "$SCRIPT_DIR/run-k6.sh" "$scenario" "$profile" "$json_out" >"$log_out" 2>&1
+  rc=$?
+  set -e
+
+  return "$rc"
+}
+
+run_rc=0
+
 case "$MODE" in
   direct-tei)
     : "${TEI_URL:?TEI_URL is required}"
     : "${TEI_API_KEY:?TEI_API_KEY is required}"
     start_collectors
     sleep 2
-    "$SCRIPT_DIR/run-k6.sh" direct-tei "${PROFILE:-sweep}" "$RUN_DIR/direct-tei.json" \
-      | tee "$RUN_DIR/direct-tei.log"
+    run_k6_with_tee direct-tei "${PROFILE:-sweep}" "$RUN_DIR/direct-tei.json" "$RUN_DIR/direct-tei.log" || run_rc=$?
     ;;
   enrichment)
     : "${HUB_URL:?HUB_URL is required}"
     : "${HUB_API_KEY:?HUB_API_KEY is required}"
     start_collectors
     sleep 2
-    "$SCRIPT_DIR/run-k6.sh" hub-enrichment "${PROFILE:-baseline}" "$RUN_DIR/enrichment.json" \
-      | tee "$RUN_DIR/enrichment.log"
+    run_k6_with_tee hub-enrichment "${PROFILE:-baseline}" "$RUN_DIR/enrichment.json" "$RUN_DIR/enrichment.log" || run_rc=$?
     ;;
   search)
     : "${HUB_URL:?HUB_URL is required}"
     : "${HUB_API_KEY:?HUB_API_KEY is required}"
     start_collectors
     sleep 2
-    "$SCRIPT_DIR/run-k6.sh" hub-search "${PROFILE:-warm}" "$RUN_DIR/search.json" \
-      | tee "$RUN_DIR/search.log"
+    run_k6_with_tee hub-search "${PROFILE:-warm}" "$RUN_DIR/search.json" "$RUN_DIR/search.log" || run_rc=$?
     ;;
   enrichment+search)
     : "${HUB_URL:?HUB_URL is required}"
     : "${HUB_API_KEY:?HUB_API_KEY is required}"
     start_collectors
     sleep 2
-    "$SCRIPT_DIR/run-k6.sh" hub-enrichment "${PROFILE:-mid}" "$RUN_DIR/enrichment.json" \
-      >"$RUN_DIR/enrichment.log" 2>&1 &
+    run_k6_to_log hub-enrichment "${PROFILE:-mid}" "$RUN_DIR/enrichment.json" "$RUN_DIR/enrichment.log" &
     enrich_pid=$!
-    "$SCRIPT_DIR/run-k6.sh" hub-search "${SEARCH_PROFILE:-busy}" "$RUN_DIR/search.json" \
-      | tee "$RUN_DIR/search.log"
-    wait "$enrich_pid" || true
+    run_k6_with_tee hub-search "${SEARCH_PROFILE:-busy}" "$RUN_DIR/search.json" "$RUN_DIR/search.log" || run_rc=$?
+    wait "$enrich_pid" || run_rc=$?
     ;;
 esac
 
@@ -142,6 +173,7 @@ echo "$END_ISO" >"$RUN_DIR/end.txt"
 # Give workers a moment to drain queued jobs before we measure final state.
 echo "sleeping 30s before post-run SQL to let workers drain..."
 sleep 30
+stop_collectors
 
 run_post_sql "$END_ISO"
 
@@ -151,3 +183,8 @@ fi
 
 echo "run complete: $RUN_DIR"
 ls -la "$RUN_DIR"
+
+if (( run_rc != 0 )); then
+  echo "one or more k6 scenarios failed; artifacts were still collected (exit=${run_rc})" >&2
+  exit "$run_rc"
+fi
