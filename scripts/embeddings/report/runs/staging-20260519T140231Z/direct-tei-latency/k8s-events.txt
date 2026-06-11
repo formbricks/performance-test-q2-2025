@@ -1,0 +1,52 @@
+LAST SEEN   TYPE      REASON                   OBJECT                                                MESSAGE
+60m         Normal    Scheduled                pod/formbricks-587b784596-5s7x7                       Successfully assigned formbricks-stage/formbricks-587b784596-5s7x7 to i-027d8248a9e1e318e
+55m         Normal    Scheduled                pod/formbricks-587b784596-zgjn5                       Successfully assigned formbricks-stage/formbricks-587b784596-zgjn5 to i-0528d29b08ce17704
+62m         Warning   FailedScheduling         pod/formbricks-587b784596-xmq6n                       0/6 nodes are available: 2 node(s) had untolerated taint(s), 4 node(s) didn't match Pod's node affinity/selector. no new claims to deallocate, preemption: 0/6 nodes are available: 6 Preemption is not helpful for scheduling.
+62m         Warning   FailedScheduling         pod/license-server-stage-764fd5c8f9-ckrbz             0/6 nodes are available: 2 node(s) had untolerated taint(s), 4 node(s) didn't match Pod's node affinity/selector. no new claims to deallocate, preemption: 0/6 nodes are available: 6 Preemption is not helpful for scheduling.
+58m         Normal    Scheduled                pod/license-server-stage-764fd5c8f9-j4hl9             Successfully assigned formbricks-stage/license-server-stage-764fd5c8f9-j4hl9 to i-0528d29b08ce17704
+58m         Normal    Scheduled                pod/formbricks-587b784596-qlf9g                       Successfully assigned formbricks-stage/formbricks-587b784596-qlf9g to i-0528d29b08ce17704
+60m         Normal    Nominated                pod/formbricks-587b784596-jxb8z                       Pod should schedule on: nodeclaim/formbricks-stage-spot-t48qd
+60m         Normal    SuccessfulCreate         replicaset/formbricks-587b784596                      Created pod: formbricks-587b784596-5s7x7
+60m         Normal    Evicted                  pod/formbricks-587b784596-jxb8z                       Evicted pod: Underutilized
+60m         Normal    Killing                  pod/formbricks-587b784596-jxb8z                       Stopping container formbricks
+60m         Normal    Pulling                  pod/formbricks-587b784596-5s7x7                       Pulling image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/formbricks:staging@sha256:f1f23d0a4a0d2c615ddf6184cef953c51d2abb69ee184aaee00837566f5c8192"
+59m         Normal    Started                  pod/formbricks-587b784596-5s7x7                       Container started
+59m         Normal    Created                  pod/formbricks-587b784596-5s7x7                       Container created
+59m         Normal    Pulled                   pod/formbricks-587b784596-5s7x7                       Successfully pulled image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/formbricks:staging@sha256:f1f23d0a4a0d2c615ddf6184cef953c51d2abb69ee184aaee00837566f5c8192" in 25.898s (25.898s including waiting). Image size: 591955363 bytes.
+58m         Normal    Nominated                pod/license-server-stage-764fd5c8f9-ckrbz             Pod should schedule on: nodeclaim/formbricks-stage-spot-t48qd, node/i-027d8248a9e1e318e
+58m         Normal    Nominated                pod/formbricks-587b784596-xmq6n                       Pod should schedule on: nodeclaim/formbricks-stage-spot-hpb7h
+58m         Normal    Killing                  pod/formbricks-587b784596-xmq6n                       Stopping container formbricks
+58m         Normal    SuccessfulCreate         replicaset/license-server-stage-764fd5c8f9            Created pod: license-server-stage-764fd5c8f9-j4hl9
+58m         Normal    Killing                  pod/license-server-stage-764fd5c8f9-ckrbz             Stopping container license-server
+58m         Normal    Evicted                  pod/formbricks-587b784596-xmq6n                       Evicted pod: Underutilized
+58m         Normal    Evicted                  pod/license-server-stage-764fd5c8f9-ckrbz             Evicted pod: Underutilized
+58m         Normal    SuccessfulCreate         replicaset/formbricks-587b784596                      Created pod: formbricks-587b784596-qlf9g
+57m         Normal    Pulled                   pod/formbricks-587b784596-qlf9g                       Successfully pulled image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/formbricks:staging@sha256:f1f23d0a4a0d2c615ddf6184cef953c51d2abb69ee184aaee00837566f5c8192" in 41.283s (41.283s including waiting). Image size: 591955363 bytes.
+57m         Normal    Pulled                   pod/license-server-stage-764fd5c8f9-j4hl9             Successfully pulled image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/license:staging@sha256:f84242c8bd295d585dc73f941db46036045c1db839915572483f2a193c039690" in 52.001s (52.001s including waiting). Image size: 361480604 bytes.
+55m         Normal    Killing                  pod/formbricks-587b784596-5s7x7                       Stopping container formbricks
+55m         Normal    Evicted                  pod/formbricks-587b784596-5s7x7                       Evicted pod: Forceful Termination
+55m         Normal    SuccessfulCreate         replicaset/formbricks-587b784596                      Created pod: formbricks-587b784596-zgjn5
+55m         Normal    Pulling                  pod/formbricks-587b784596-zgjn5                       Pulling image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/formbricks:staging@sha256:f1f23d0a4a0d2c615ddf6184cef953c51d2abb69ee184aaee00837566f5c8192"
+55m         Normal    Pulled                   pod/formbricks-587b784596-zgjn5                       Successfully pulled image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/formbricks:staging@sha256:f1f23d0a4a0d2c615ddf6184cef953c51d2abb69ee184aaee00837566f5c8192" in 243ms (243ms including waiting). Image size: 591955363 bytes.
+55m         Normal    Started                  pod/formbricks-587b784596-zgjn5                       Container started
+55m         Normal    Created                  pod/formbricks-587b784596-zgjn5                       Container created
+53m         Normal    Killing                  pod/license-server-stage-764fd5c8f9-j4hl9             Container license-server failed liveness probe, will be restarted
+53m         Warning   Unhealthy                pod/license-server-stage-764fd5c8f9-j4hl9             Liveness probe failed: Get "http://10.2.77.145:3000/api/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+53m         Warning   Unhealthy                pod/license-server-stage-764fd5c8f9-j4hl9             Readiness probe failed: Get "http://10.2.77.145:3000/api/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+53m         Normal    Killing                  pod/formbricks-587b784596-qlf9g                       Container formbricks failed liveness probe, will be restarted
+53m         Warning   Unhealthy                pod/formbricks-587b784596-qlf9g                       Liveness probe failed: Get "http://10.2.77.144:3000/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+53m         Warning   Unhealthy                pod/formbricks-587b784596-qlf9g                       Readiness probe failed: Get "http://10.2.77.144:3000/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+53m         Warning   Unhealthy                pod/formbricks-587b784596-qlf9g                       Readiness probe failed: Get "http://10.2.77.144:3000/health": read tcp 10.2.87.241:44216->10.2.77.144:3000: read: connection reset by peer
+53m         Warning   Unhealthy                pod/formbricks-587b784596-zgjn5                       Readiness probe failed: Get "http://10.2.77.147:3000/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+53m         Normal    Pulling                  pod/formbricks-587b784596-qlf9g                       Pulling image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/formbricks:staging@sha256:f1f23d0a4a0d2c615ddf6184cef953c51d2abb69ee184aaee00837566f5c8192"
+53m         Normal    Pulled                   pod/formbricks-587b784596-qlf9g                       Successfully pulled image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/formbricks:staging@sha256:f1f23d0a4a0d2c615ddf6184cef953c51d2abb69ee184aaee00837566f5c8192" in 375ms (375ms including waiting). Image size: 591955363 bytes.
+53m         Normal    Created                  pod/formbricks-587b784596-qlf9g                       Container created
+53m         Normal    Started                  pod/formbricks-587b784596-qlf9g                       Container started
+52m         Normal    Started                  pod/license-server-stage-764fd5c8f9-j4hl9             Container started
+52m         Normal    Created                  pod/license-server-stage-764fd5c8f9-j4hl9             Container created
+52m         Normal    Pulling                  pod/license-server-stage-764fd5c8f9-j4hl9             Pulling image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/license:staging@sha256:f84242c8bd295d585dc73f941db46036045c1db839915572483f2a193c039690"
+52m         Normal    Pulled                   pod/license-server-stage-764fd5c8f9-j4hl9             Successfully pulled image "715841356175.dkr.ecr.eu-central-1.amazonaws.com/formbricks/license:staging@sha256:f84242c8bd295d585dc73f941db46036045c1db839915572483f2a193c039690" in 120ms (120ms including waiting). Image size: 361480604 bytes.
+52m         Warning   Unhealthy                pod/license-server-stage-764fd5c8f9-j4hl9             Readiness probe failed: Get "http://10.2.77.145:3000/api/health": dial tcp 10.2.77.145:3000: connect: connection refused
+52m         Normal    SuccessfullyReconciled   targetgroupbinding/k8s-formbric-formbric-d82098cb51   Successfully reconciled
+52m         Warning   Unhealthy                pod/license-server-stage-764fd5c8f9-j4hl9             Startup probe failed: Get "http://10.2.77.145:3000/api/health": dial tcp 10.2.77.145:3000: connect: connection refused
+52m         Normal    SuccessfullyReconciled   targetgroupbinding/k8s-formbric-licenses-9b55f7e334   Successfully reconciled

@@ -1,0 +1,6 @@
+rows|min_s|p50_s|p95_s|p99_s|max_s|avg_s
+0||||||
+(1 row)
+unfinished_rows|oldest_unfinished
+899|2026-05-19 14:11:21.9236+00
+(1 row)

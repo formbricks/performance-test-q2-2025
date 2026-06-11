@@ -1,0 +1,6 @@
+rows|min_s|p50_s|p95_s|p99_s|max_s|avg_s
+167|1.775|85.300|159.082|165.486|166.567|85.057
+(1 row)
+unfinished_rows|oldest_unfinished
+132|2026-05-19 14:08:28.266027+00
+(1 row)

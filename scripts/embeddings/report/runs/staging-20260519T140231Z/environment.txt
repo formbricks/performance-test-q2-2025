@@ -1,0 +1,16 @@
+run_base=/Users/bhagya/work/formbricks/performance-test-q2-2025-pr2/scripts/embeddings/report/runs/staging-20260519T140231Z
+tenant_id=load-test-20260519T140231Z
+timestamp=20260519T140231Z
+k6 v2.0.0 (commit/devel, go1.26.3, darwin/arm64)
+arn:aws:eks:eu-central-1:715841356175:cluster/core-eks
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS       IMAGES                                                                                           SELECTOR
+formbricks-hub              1/1     1            1           6h8m   hub              ghcr.io/formbricks/hub@sha256:6c39b1143527137e881df785a5b668625a1fe3edb05485bb5ded19f813c8de88   app.kubernetes.io/instance=formbricks-stage,app.kubernetes.io/name=formbricks-hub
+formbricks-hub-worker       1/1     1            1           6h8m   hub-worker       ghcr.io/formbricks/hub@sha256:6c39b1143527137e881df785a5b668625a1fe3edb05485bb5ded19f813c8de88   app.kubernetes.io/instance=formbricks-stage,app.kubernetes.io/name=formbricks-hub-worker
+formbricks-hub-embeddings   1/1     1            1           6h8m   hub-embeddings   ghcr.io/huggingface/text-embeddings-inference:cpu-1.9                                            app.kubernetes.io/instance=formbricks-stage,app.kubernetes.io/name=formbricks-hub-embeddings
+NAME                                         READY   STATUS    RESTARTS      AGE    IP            NODE                  NOMINATED NODE   READINESS GATES
+formbricks-587b784596-qlf9g                  1/1     Running   1 (50m ago)   55m    10.2.77.144   i-0528d29b08ce17704   <none>           <none>
+formbricks-587b784596-zgjn5                  1/1     Running   0             52m    10.2.77.147   i-0528d29b08ce17704   <none>           <none>
+formbricks-cube-75c545885c-fvq82             1/1     Running   0             6h8m   10.2.154.44   i-071385d158e4aa590   <none>           <none>
+formbricks-hub-6d86596db9-7xckk              1/1     Running   0             6h5m   10.2.82.246   i-0571d9fe133578371   <none>           <none>
+formbricks-hub-embeddings-6fccdb4db9-57hrs   1/1     Running   0             6h8m   10.2.105.1    i-02e38142843525203   <none>           <none>
+formbricks-hub-worker-65979d44f9-wlb7v       1/1     Running   0             6h5m   10.2.82.242   i-0571d9fe133578371   <none>           <none>

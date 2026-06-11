@@ -1,0 +1,451 @@
+== k6 scenario=direct-tei profile=latency ==
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+
+     execution: local
+        script: scripts/embeddings/k6/direct-tei.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 2m30s max duration (incl. graceful stop):
+              * warm_serial: 1.00 iterations/s for 2m0s (maxVUs: 2-10, gracefulStop: 30s)
+
+
+running (0m01.0s), 01/02 VUs, 0 complete and 0 interrupted iterations
+warm_serial   [   1% ] 01/02 VUs  0m01.0s/2m0s  1.00 iters/s
+
+running (0m02.0s), 02/02 VUs, 0 complete and 0 interrupted iterations
+warm_serial   [   2% ] 02/02 VUs  0m02.0s/2m0s  1.00 iters/s
+
+running (0m03.0s), 01/03 VUs, 1 complete and 0 interrupted iterations
+warm_serial   [   2% ] 01/03 VUs  0m03.0s/2m0s  1.00 iters/s
+
+running (0m04.0s), 02/03 VUs, 1 complete and 0 interrupted iterations
+warm_serial   [   3% ] 02/03 VUs  0m04.0s/2m0s  1.00 iters/s
+
+running (0m05.0s), 02/03 VUs, 2 complete and 0 interrupted iterations
+warm_serial   [   4% ] 02/03 VUs  0m05.0s/2m0s  1.00 iters/s
+
+running (0m06.0s), 03/03 VUs, 2 complete and 0 interrupted iterations
+warm_serial   [   5% ] 03/03 VUs  0m06.0s/2m0s  1.00 iters/s
+
+running (0m07.0s), 02/04 VUs, 3 complete and 0 interrupted iterations
+warm_serial   [   6% ] 02/04 VUs  0m07.0s/2m0s  1.00 iters/s
+
+running (0m08.0s), 03/04 VUs, 3 complete and 0 interrupted iterations
+warm_serial   [   7% ] 03/04 VUs  0m08.0s/2m0s  1.00 iters/s
+
+running (0m09.0s), 03/04 VUs, 4 complete and 0 interrupted iterations
+warm_serial   [   7% ] 03/04 VUs  0m09.0s/2m0s  1.00 iters/s
+
+running (0m10.0s), 04/04 VUs, 4 complete and 0 interrupted iterations
+warm_serial   [   8% ] 04/04 VUs  0m10.0s/2m0s  1.00 iters/s
+
+running (0m11.0s), 04/05 VUs, 4 complete and 0 interrupted iterations
+warm_serial   [   9% ] 04/05 VUs  0m11.0s/2m0s  1.00 iters/s
+
+running (0m12.0s), 05/05 VUs, 4 complete and 0 interrupted iterations
+warm_serial   [  10% ] 05/05 VUs  0m12.0s/2m0s  1.00 iters/s
+
+running (0m13.0s), 04/06 VUs, 5 complete and 0 interrupted iterations
+warm_serial   [  11% ] 04/06 VUs  0m13.0s/2m0s  1.00 iters/s
+
+running (0m14.0s), 05/06 VUs, 5 complete and 0 interrupted iterations
+warm_serial   [  12% ] 05/06 VUs  0m14.0s/2m0s  1.00 iters/s
+
+running (0m15.0s), 06/06 VUs, 5 complete and 0 interrupted iterations
+warm_serial   [  12% ] 06/06 VUs  0m15.0s/2m0s  1.00 iters/s
+
+running (0m16.0s), 06/07 VUs, 5 complete and 0 interrupted iterations
+warm_serial   [  13% ] 06/07 VUs  0m16.0s/2m0s  1.00 iters/s
+
+running (0m17.0s), 07/07 VUs, 5 complete and 0 interrupted iterations
+warm_serial   [  14% ] 07/07 VUs  0m17.0s/2m0s  1.00 iters/s
+
+running (0m18.0s), 05/08 VUs, 7 complete and 0 interrupted iterations
+warm_serial   [  15% ] 05/08 VUs  0m18.0s/2m0s  1.00 iters/s
+
+running (0m19.0s), 06/08 VUs, 7 complete and 0 interrupted iterations
+warm_serial   [  16% ] 06/08 VUs  0m19.0s/2m0s  1.00 iters/s
+
+running (0m20.0s), 07/08 VUs, 7 complete and 0 interrupted iterations
+warm_serial   [  17% ] 07/08 VUs  0m20.0s/2m0s  1.00 iters/s
+
+running (0m21.0s), 08/08 VUs, 7 complete and 0 interrupted iterations
+warm_serial   [  17% ] 08/08 VUs  0m21.0s/2m0s  1.00 iters/s
+
+running (0m22.0s), 06/09 VUs, 9 complete and 0 interrupted iterations
+warm_serial   [  18% ] 06/09 VUs  0m22.0s/2m0s  1.00 iters/s
+
+running (0m23.0s), 07/09 VUs, 9 complete and 0 interrupted iterations
+warm_serial   [  19% ] 07/09 VUs  0m23.0s/2m0s  1.00 iters/s
+
+running (0m24.0s), 08/09 VUs, 9 complete and 0 interrupted iterations
+warm_serial   [  20% ] 08/09 VUs  0m24.0s/2m0s  1.00 iters/s
+
+running (0m25.0s), 09/09 VUs, 9 complete and 0 interrupted iterations
+warm_serial   [  21% ] 09/09 VUs  0m25.0s/2m0s  1.00 iters/s
+
+running (0m26.0s), 09/10 VUs, 9 complete and 0 interrupted iterations
+warm_serial   [  22% ] 09/10 VUs  0m26.0s/2m0s  1.00 iters/s
+
+running (0m27.0s), 10/10 VUs, 9 complete and 0 interrupted iterations
+warm_serial   [  22% ] 10/10 VUs  0m27.0s/2m0s  1.00 iters/s
+time="2026-05-19T19:33:10+05:30" level=warning msg="Insufficient VUs, reached 10 active VUs and cannot initialize more" executor=constant-arrival-rate scenario=warm_serial
+
+running (0m28.0s), 07/10 VUs, 12 complete and 0 interrupted iterations
+warm_serial   [  23% ] 07/10 VUs  0m28.0s/2m0s  1.00 iters/s
+
+running (0m29.0s), 08/10 VUs, 12 complete and 0 interrupted iterations
+warm_serial   [  24% ] 08/10 VUs  0m29.0s/2m0s  1.00 iters/s
+
+running (0m30.0s), 09/10 VUs, 12 complete and 0 interrupted iterations
+warm_serial   [  25% ] 09/10 VUs  0m30.0s/2m0s  1.00 iters/s
+
+running (0m31.0s), 10/10 VUs, 12 complete and 0 interrupted iterations
+warm_serial   [  26% ] 10/10 VUs  0m31.0s/2m0s  1.00 iters/s
+
+running (0m32.0s), 10/10 VUs, 12 complete and 0 interrupted iterations
+warm_serial   [  27% ] 10/10 VUs  0m32.0s/2m0s  1.00 iters/s
+
+running (0m33.0s), 10/10 VUs, 12 complete and 0 interrupted iterations
+warm_serial   [  27% ] 10/10 VUs  0m33.0s/2m0s  1.00 iters/s
+
+running (0m34.0s), 10/10 VUs, 12 complete and 0 interrupted iterations
+warm_serial   [  28% ] 10/10 VUs  0m34.0s/2m0s  1.00 iters/s
+
+running (0m35.0s), 07/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  29% ] 07/10 VUs  0m35.0s/2m0s  1.00 iters/s
+
+running (0m36.0s), 08/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  30% ] 08/10 VUs  0m36.0s/2m0s  1.00 iters/s
+
+running (0m37.0s), 09/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  31% ] 09/10 VUs  0m37.0s/2m0s  1.00 iters/s
+
+running (0m38.0s), 10/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  32% ] 10/10 VUs  0m38.0s/2m0s  1.00 iters/s
+
+running (0m39.0s), 10/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  32% ] 10/10 VUs  0m39.0s/2m0s  1.00 iters/s
+
+running (0m40.0s), 10/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  33% ] 10/10 VUs  0m40.0s/2m0s  1.00 iters/s
+
+running (0m41.0s), 10/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  34% ] 10/10 VUs  0m41.0s/2m0s  1.00 iters/s
+
+running (0m42.0s), 10/10 VUs, 15 complete and 0 interrupted iterations
+warm_serial   [  35% ] 10/10 VUs  0m42.0s/2m0s  1.00 iters/s
+
+running (0m43.0s), 06/10 VUs, 19 complete and 0 interrupted iterations
+warm_serial   [  36% ] 06/10 VUs  0m43.0s/2m0s  1.00 iters/s
+
+running (0m44.0s), 07/10 VUs, 19 complete and 0 interrupted iterations
+warm_serial   [  37% ] 07/10 VUs  0m44.0s/2m0s  1.00 iters/s
+
+running (0m45.0s), 08/10 VUs, 19 complete and 0 interrupted iterations
+warm_serial   [  37% ] 08/10 VUs  0m45.0s/2m0s  1.00 iters/s
+
+running (0m46.0s), 09/10 VUs, 19 complete and 0 interrupted iterations
+warm_serial   [  38% ] 09/10 VUs  0m46.0s/2m0s  1.00 iters/s
+
+running (0m47.0s), 10/10 VUs, 19 complete and 0 interrupted iterations
+warm_serial   [  39% ] 10/10 VUs  0m47.0s/2m0s  1.00 iters/s
+
+running (0m48.0s), 10/10 VUs, 19 complete and 0 interrupted iterations
+warm_serial   [  40% ] 10/10 VUs  0m48.0s/2m0s  1.00 iters/s
+
+running (0m49.0s), 09/10 VUs, 20 complete and 0 interrupted iterations
+warm_serial   [  41% ] 09/10 VUs  0m49.0s/2m0s  1.00 iters/s
+
+running (0m50.0s), 08/10 VUs, 22 complete and 0 interrupted iterations
+warm_serial   [  42% ] 08/10 VUs  0m50.0s/2m0s  1.00 iters/s
+
+running (0m51.0s), 09/10 VUs, 22 complete and 0 interrupted iterations
+warm_serial   [  42% ] 09/10 VUs  0m51.0s/2m0s  1.00 iters/s
+
+running (0m52.0s), 10/10 VUs, 22 complete and 0 interrupted iterations
+warm_serial   [  43% ] 10/10 VUs  0m52.0s/2m0s  1.00 iters/s
+
+running (0m53.0s), 10/10 VUs, 22 complete and 0 interrupted iterations
+warm_serial   [  44% ] 10/10 VUs  0m53.0s/2m0s  1.00 iters/s
+
+running (0m54.0s), 10/10 VUs, 22 complete and 0 interrupted iterations
+warm_serial   [  45% ] 10/10 VUs  0m54.0s/2m0s  1.00 iters/s
+
+running (0m55.0s), 10/10 VUs, 22 complete and 0 interrupted iterations
+warm_serial   [  46% ] 10/10 VUs  0m55.0s/2m0s  1.00 iters/s
+
+running (0m56.0s), 07/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  47% ] 07/10 VUs  0m56.0s/2m0s  1.00 iters/s
+
+running (0m57.0s), 08/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  47% ] 08/10 VUs  0m57.0s/2m0s  1.00 iters/s
+
+running (0m58.0s), 09/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  48% ] 09/10 VUs  0m58.0s/2m0s  1.00 iters/s
+
+running (0m59.0s), 10/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  49% ] 10/10 VUs  0m59.0s/2m0s  1.00 iters/s
+
+running (1m00.0s), 10/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  50% ] 10/10 VUs  1m00.0s/2m0s  1.00 iters/s
+
+running (1m01.0s), 10/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  51% ] 10/10 VUs  1m01.0s/2m0s  1.00 iters/s
+
+running (1m02.0s), 10/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  52% ] 10/10 VUs  1m02.0s/2m0s  1.00 iters/s
+
+running (1m03.0s), 10/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  52% ] 10/10 VUs  1m03.0s/2m0s  1.00 iters/s
+
+running (1m04.0s), 10/10 VUs, 25 complete and 0 interrupted iterations
+warm_serial   [  53% ] 10/10 VUs  1m04.0s/2m0s  1.00 iters/s
+
+running (1m05.0s), 06/10 VUs, 29 complete and 0 interrupted iterations
+warm_serial   [  54% ] 06/10 VUs  1m05.0s/2m0s  1.00 iters/s
+
+running (1m06.0s), 07/10 VUs, 29 complete and 0 interrupted iterations
+warm_serial   [  55% ] 07/10 VUs  1m06.0s/2m0s  1.00 iters/s
+
+running (1m07.0s), 08/10 VUs, 29 complete and 0 interrupted iterations
+warm_serial   [  56% ] 08/10 VUs  1m07.0s/2m0s  1.00 iters/s
+
+running (1m08.0s), 09/10 VUs, 29 complete and 0 interrupted iterations
+warm_serial   [  57% ] 09/10 VUs  1m08.0s/2m0s  1.00 iters/s
+
+running (1m09.0s), 10/10 VUs, 29 complete and 0 interrupted iterations
+warm_serial   [  57% ] 10/10 VUs  1m09.0s/2m0s  1.00 iters/s
+
+running (1m10.0s), 10/10 VUs, 29 complete and 0 interrupted iterations
+warm_serial   [  58% ] 10/10 VUs  1m10.0s/2m0s  1.00 iters/s
+
+running (1m11.0s), 07/10 VUs, 32 complete and 0 interrupted iterations
+warm_serial   [  59% ] 07/10 VUs  1m11.0s/2m0s  1.00 iters/s
+
+running (1m12.0s), 08/10 VUs, 32 complete and 0 interrupted iterations
+warm_serial   [  60% ] 08/10 VUs  1m12.0s/2m0s  1.00 iters/s
+
+running (1m13.0s), 09/10 VUs, 32 complete and 0 interrupted iterations
+warm_serial   [  61% ] 09/10 VUs  1m13.0s/2m0s  1.00 iters/s
+
+running (1m14.0s), 10/10 VUs, 32 complete and 0 interrupted iterations
+warm_serial   [  62% ] 10/10 VUs  1m14.0s/2m0s  1.00 iters/s
+
+running (1m15.0s), 10/10 VUs, 32 complete and 0 interrupted iterations
+warm_serial   [  62% ] 10/10 VUs  1m15.0s/2m0s  1.00 iters/s
+
+running (1m16.0s), 10/10 VUs, 32 complete and 0 interrupted iterations
+warm_serial   [  63% ] 10/10 VUs  1m16.0s/2m0s  1.00 iters/s
+
+running (1m17.0s), 10/10 VUs, 32 complete and 0 interrupted iterations
+warm_serial   [  64% ] 10/10 VUs  1m17.0s/2m0s  1.00 iters/s
+
+running (1m18.0s), 07/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  65% ] 07/10 VUs  1m18.0s/2m0s  1.00 iters/s
+
+running (1m19.0s), 08/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  66% ] 08/10 VUs  1m19.0s/2m0s  1.00 iters/s
+
+running (1m20.0s), 09/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  67% ] 09/10 VUs  1m20.0s/2m0s  1.00 iters/s
+
+running (1m21.0s), 10/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  67% ] 10/10 VUs  1m21.0s/2m0s  1.00 iters/s
+
+running (1m22.0s), 10/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  68% ] 10/10 VUs  1m22.0s/2m0s  1.00 iters/s
+
+running (1m23.0s), 10/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  69% ] 10/10 VUs  1m23.0s/2m0s  1.00 iters/s
+
+running (1m24.0s), 10/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  70% ] 10/10 VUs  1m24.0s/2m0s  1.00 iters/s
+
+running (1m25.0s), 10/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  71% ] 10/10 VUs  1m25.0s/2m0s  1.00 iters/s
+
+running (1m26.0s), 10/10 VUs, 35 complete and 0 interrupted iterations
+warm_serial   [  72% ] 10/10 VUs  1m26.0s/2m0s  1.00 iters/s
+
+running (1m27.0s), 06/10 VUs, 39 complete and 0 interrupted iterations
+warm_serial   [  72% ] 06/10 VUs  1m27.0s/2m0s  1.00 iters/s
+
+running (1m28.0s), 07/10 VUs, 39 complete and 0 interrupted iterations
+warm_serial   [  73% ] 07/10 VUs  1m28.0s/2m0s  1.00 iters/s
+
+running (1m29.0s), 08/10 VUs, 39 complete and 0 interrupted iterations
+warm_serial   [  74% ] 08/10 VUs  1m29.0s/2m0s  1.00 iters/s
+
+running (1m30.0s), 09/10 VUs, 39 complete and 0 interrupted iterations
+warm_serial   [  75% ] 09/10 VUs  1m30.0s/2m0s  1.00 iters/s
+
+running (1m31.0s), 10/10 VUs, 39 complete and 0 interrupted iterations
+warm_serial   [  76% ] 10/10 VUs  1m31.0s/2m0s  1.00 iters/s
+
+running (1m32.0s), 10/10 VUs, 39 complete and 0 interrupted iterations
+warm_serial   [  77% ] 10/10 VUs  1m32.0s/2m0s  1.00 iters/s
+
+running (1m33.0s), 09/10 VUs, 40 complete and 0 interrupted iterations
+warm_serial   [  77% ] 09/10 VUs  1m33.0s/2m0s  1.00 iters/s
+
+running (1m34.0s), 08/10 VUs, 42 complete and 0 interrupted iterations
+warm_serial   [  78% ] 08/10 VUs  1m34.0s/2m0s  1.00 iters/s
+
+running (1m35.0s), 09/10 VUs, 42 complete and 0 interrupted iterations
+warm_serial   [  79% ] 09/10 VUs  1m35.0s/2m0s  1.00 iters/s
+
+running (1m36.0s), 10/10 VUs, 42 complete and 0 interrupted iterations
+warm_serial   [  80% ] 10/10 VUs  1m36.0s/2m0s  1.00 iters/s
+
+running (1m37.0s), 10/10 VUs, 42 complete and 0 interrupted iterations
+warm_serial   [  81% ] 10/10 VUs  1m37.0s/2m0s  1.00 iters/s
+
+running (1m38.0s), 10/10 VUs, 42 complete and 0 interrupted iterations
+warm_serial   [  82% ] 10/10 VUs  1m38.0s/2m0s  1.00 iters/s
+
+running (1m39.0s), 10/10 VUs, 42 complete and 0 interrupted iterations
+warm_serial   [  82% ] 10/10 VUs  1m39.0s/2m0s  1.00 iters/s
+
+running (1m40.0s), 07/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  83% ] 07/10 VUs  1m40.0s/2m0s  1.00 iters/s
+
+running (1m41.0s), 08/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  84% ] 08/10 VUs  1m41.0s/2m0s  1.00 iters/s
+
+running (1m42.0s), 09/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  85% ] 09/10 VUs  1m42.0s/2m0s  1.00 iters/s
+
+running (1m43.0s), 10/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  86% ] 10/10 VUs  1m43.0s/2m0s  1.00 iters/s
+
+running (1m44.0s), 10/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  87% ] 10/10 VUs  1m44.0s/2m0s  1.00 iters/s
+
+running (1m45.0s), 10/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  87% ] 10/10 VUs  1m45.0s/2m0s  1.00 iters/s
+
+running (1m46.0s), 10/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  88% ] 10/10 VUs  1m46.0s/2m0s  1.00 iters/s
+
+running (1m47.0s), 10/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  89% ] 10/10 VUs  1m47.0s/2m0s  1.00 iters/s
+
+running (1m48.0s), 10/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  90% ] 10/10 VUs  1m48.0s/2m0s  1.00 iters/s
+
+running (1m49.0s), 10/10 VUs, 45 complete and 0 interrupted iterations
+warm_serial   [  91% ] 10/10 VUs  1m49.0s/2m0s  1.00 iters/s
+
+running (1m50.0s), 06/10 VUs, 49 complete and 0 interrupted iterations
+warm_serial   [  92% ] 06/10 VUs  1m50.0s/2m0s  1.00 iters/s
+
+running (1m51.0s), 07/10 VUs, 49 complete and 0 interrupted iterations
+warm_serial   [  92% ] 07/10 VUs  1m51.0s/2m0s  1.00 iters/s
+
+running (1m52.0s), 08/10 VUs, 49 complete and 0 interrupted iterations
+warm_serial   [  93% ] 08/10 VUs  1m52.0s/2m0s  1.00 iters/s
+
+running (1m53.0s), 09/10 VUs, 49 complete and 0 interrupted iterations
+warm_serial   [  94% ] 09/10 VUs  1m53.0s/2m0s  1.00 iters/s
+
+running (1m54.0s), 10/10 VUs, 49 complete and 0 interrupted iterations
+warm_serial   [  95% ] 10/10 VUs  1m54.0s/2m0s  1.00 iters/s
+
+running (1m55.0s), 09/10 VUs, 50 complete and 0 interrupted iterations
+warm_serial   [  96% ] 09/10 VUs  1m55.0s/2m0s  1.00 iters/s
+
+running (1m56.0s), 08/10 VUs, 52 complete and 0 interrupted iterations
+warm_serial   [  97% ] 08/10 VUs  1m56.0s/2m0s  1.00 iters/s
+
+running (1m57.0s), 09/10 VUs, 52 complete and 0 interrupted iterations
+warm_serial   [  97% ] 09/10 VUs  1m57.0s/2m0s  1.00 iters/s
+
+running (1m58.0s), 10/10 VUs, 52 complete and 0 interrupted iterations
+warm_serial   [  98% ] 10/10 VUs  1m58.0s/2m0s  1.00 iters/s
+
+running (1m59.0s), 10/10 VUs, 52 complete and 0 interrupted iterations
+warm_serial   [  99% ] 10/10 VUs  1m59.0s/2m0s  1.00 iters/s
+
+running (2m00.0s), 10/10 VUs, 52 complete and 0 interrupted iterations
+warm_serial   [ 100% ] 10/10 VUs  2m00.0s/2m0s  1.00 iters/s
+
+running (2m01.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m02.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m03.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m04.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m05.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m06.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m07.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m08.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m09.0s), 07/10 VUs, 55 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m10.0s), 03/10 VUs, 59 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m11.0s), 03/10 VUs, 59 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m12.0s), 03/10 VUs, 59 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m13.0s), 03/10 VUs, 59 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m14.0s), 03/10 VUs, 59 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+
+running (2m15.0s), 03/10 VUs, 59 complete and 0 interrupted iterations
+warm_serial ↓ [ 100% ] 10/10 VUs  2m0s  1.00 iters/s
+     ✓ status 200
+     ✓ has embedding
+
+     checks.........................: 100.00% ✓ 124      ✗ 0
+     data_received..................: 624 kB  4.6 kB/s
+     data_sent......................: 30 kB   223 B/s
+   ✓ dim_mismatch...................: 0.00%   ✓ 0        ✗ 62
+     dropped_iterations.............: 58      0.428222/s
+     http_req_blocked...............: avg=82.17µs min=3µs   med=11µs   max=575µs  p(90)=423.8µs p(95)=463.8µs
+     http_req_connecting............: avg=56.06µs min=0s    med=0s     max=438µs  p(90)=336.8µs p(95)=369.55µs
+     http_req_duration..............: avg=17.57s  min=2.38s med=19.51s max=22.4s  p(90)=21.47s  p(95)=21.76s
+       { expected_response:true }...: avg=17.57s  min=2.38s med=19.51s max=22.4s  p(90)=21.47s  p(95)=21.76s
+   ✓ http_req_failed................: 0.00%   ✓ 0        ✗ 62
+     http_req_receiving.............: avg=103.8µs min=18µs  med=76µs   max=522µs  p(90)=200.6µs p(95)=227.6µs
+     http_req_sending...............: avg=50.06µs min=13µs  med=42µs   max=142µs  p(90)=90µs    p(95)=111.94µs
+     http_req_tls_handshaking.......: avg=0s      min=0s    med=0s     max=0s     p(90)=0s      p(95)=0s
+     http_req_waiting...............: avg=17.57s  min=2.38s med=19.51s max=22.4s  p(90)=21.47s  p(95)=21.76s
+     http_reqs......................: 62      0.457754/s
+     iteration_duration.............: avg=17.57s  min=2.39s med=19.51s max=22.4s  p(90)=21.47s  p(95)=21.77s
+     iterations.....................: 62      0.457754/s
+     latency_long...................: avg=7.85s   min=7.85s med=7.85s  max=7.85s  p(90)=7.85s   p(95)=7.85s
+     latency_medium.................: avg=17.95s  min=2.38s med=19.4s  max=22.4s  p(90)=21.62s  p(95)=21.87s
+     latency_short..................: avg=17.56s  min=3.12s med=19.72s max=21.97s p(90)=21.36s  p(95)=21.58s
+     vus............................: 3       min=1      max=10
+     vus_max........................: 10      min=2      max=10
+{"scenario":"direct-tei/latency","duration_ms":135443.923,"http_reqs":62,"http_req_failed_rate":0,"http_req_duration":{"p50":19511.1,"p95":21769.938700000002,"p99":null,"avg":17571.271},"checks":{"passes":124,"fails":0},"by_length":{},"result":"PASS","failures":[]}
+
+running (2m15.4s), 00/10 VUs, 62 complete and 0 interrupted iterations
+warm_serial ✓ [ 100% ] 00/10 VUs  2m0s  1.00 iters/s

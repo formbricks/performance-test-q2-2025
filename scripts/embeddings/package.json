@@ -1,0 +1,6 @@
+{
+  "name": "formbricks-hub-embeddings-load-test",
+  "private": true,
+  "type": "module",
+  "description": "Load test scripts for the Formbricks Hub embeddings pipeline (TEI + Hub worker + River + pgvector)."
+}

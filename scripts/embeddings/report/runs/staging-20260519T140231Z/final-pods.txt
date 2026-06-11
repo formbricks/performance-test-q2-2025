@@ -1,0 +1,7 @@
+NAME                                         READY   STATUS    RESTARTS      AGE     IP            NODE                  NOMINATED NODE   READINESS GATES
+formbricks-587b784596-qlf9g                  1/1     Running   1 (64m ago)   69m     10.2.77.144   i-0528d29b08ce17704   <none>           <none>
+formbricks-587b784596-zgjn5                  1/1     Running   0             66m     10.2.77.147   i-0528d29b08ce17704   <none>           <none>
+formbricks-cube-75c545885c-fvq82             1/1     Running   0             6h22m   10.2.154.44   i-071385d158e4aa590   <none>           <none>
+formbricks-hub-6d86596db9-7xckk              1/1     Running   0             6h20m   10.2.82.246   i-0571d9fe133578371   <none>           <none>
+formbricks-hub-embeddings-6fccdb4db9-57hrs   1/1     Running   0             6h22m   10.2.105.1    i-02e38142843525203   <none>           <none>
+formbricks-hub-worker-65979d44f9-wlb7v       1/1     Running   0             6h20m   10.2.82.242   i-0571d9fe133578371   <none>           <none>

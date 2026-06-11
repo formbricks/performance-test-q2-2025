@@ -1,0 +1,6 @@
+# Generated payload shards (produced by data/prepare-payloads.js).
+data/payloads/*.json
+
+# Per-run artifacts produced by run-full-suite.sh.
+report/runs/**
+!report/runs/.gitkeep
