@@ -1,0 +1,77 @@
+[
+  {
+    "name": "csat-saas",
+    "prompt": "Customer satisfaction survey for our SaaS product after a feature release. Five questions, mix of rating and open text.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "onboarding-new-hires",
+    "prompt": "Onboarding feedback survey for new hires at the end of their first month. Cover process clarity, tooling, and manager support.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "nps-post-purchase",
+    "prompt": "Single-page NPS survey for ecommerce customers two weeks after delivery, with a follow-up open-text question.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "event-feedback-conference",
+    "prompt": "Post-event feedback for a two-day tech conference. Ask about content quality, speaker quality, venue, and what to keep or change next year.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "product-research-multi-block",
+    "prompt": "Product research survey to understand how customers use our analytics dashboards. Three sections: usage frequency, feature value, and unmet needs.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "exit-interview",
+    "prompt": "Anonymous exit interview survey for employees leaving the company. Cover reasons for leaving, what they enjoyed, and what could improve.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "marketing-website-feedback",
+    "prompt": "Short marketing website feedback survey. Did visitors find what they needed, what page they were on, and would they recommend the company.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "training-evaluation",
+    "prompt": "Training evaluation survey for a four-hour internal workshop. Cover content relevance, instructor effectiveness, and applicability to daily work.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "support-csat-de",
+    "prompt": "Kurze CSAT-Umfrage nach einem Support-Ticket. Fragen Sie nach der Zufriedenheit mit der Reaktionszeit, der Hilfsbereitschaft und der Lösung.",
+    "preferred_language": "de-DE"
+  },
+  {
+    "name": "patient-experience-fr",
+    "prompt": "Enquête de satisfaction patient après une consultation, en trois sections : accueil, qualité du soin, suivi proposé.",
+    "preferred_language": "fr-FR"
+  },
+  {
+    "name": "remote-work-pulse",
+    "prompt": "Quarterly pulse survey on remote work effectiveness. Include questions about workspace setup, collaboration tools, work-life balance, and manager check-ins. Use multiple blocks per topic.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "product-launch-readiness",
+    "prompt": "Product launch readiness check for cross-functional teams. Ask about feature completeness, marketing readiness, support readiness, and known risks.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "ecommerce-cart-abandonment",
+    "prompt": "One-question survey to ask shoppers why they abandoned their cart. Optional follow-up text question.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "alumni-engagement",
+    "prompt": "University alumni engagement survey. Cover career outcomes, satisfaction with alumni programming, and interest in mentoring current students.",
+    "preferred_language": "en-US"
+  },
+  {
+    "name": "long-detailed-prompt",
+    "prompt": "Comprehensive customer research survey for a B2B software company that wants to understand not only product satisfaction but also pricing sensitivity, integration needs, support quality, onboarding experience, willingness to recommend, and likelihood to renew within the next 12 months. Use multiple blocks. Include CSAT for product, CES for support, NPS for loyalty, and an open-text question for unprompted improvement suggestions. Surveys should feel professional, neutral, and avoid leading questions.",
+    "preferred_language": "en-US"
+  }
+]

@@ -1,0 +1,3 @@
+# Per-run artifacts produced by run-full-suite.sh.
+report/runs/**
+!report/runs/.gitkeep

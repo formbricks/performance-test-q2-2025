@@ -1,0 +1,6 @@
+{
+  "name": "formbricks-llm-load-test",
+  "private": true,
+  "type": "module",
+  "description": "Load test scripts for the Formbricks self-hosted Qwen/vLLM runtime (translation, chart-gen, survey-gen) — ENG-1107."
+}

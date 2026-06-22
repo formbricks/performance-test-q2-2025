@@ -1,0 +1,50 @@
+[
+  {
+    "name": "csat-trend",
+    "prompt": "Show CSAT score over the last 90 days."
+  },
+  {
+    "name": "nps-by-segment",
+    "prompt": "Compare NPS across customer segments for the last quarter."
+  },
+  {
+    "name": "ces-by-channel",
+    "prompt": "Customer effort score broken down by support channel for this month."
+  },
+  {
+    "name": "response-volume-region",
+    "prompt": "Total survey responses by region this year."
+  },
+  {
+    "name": "sentiment-product-area",
+    "prompt": "Sentiment distribution by product area over the last 30 days."
+  },
+  {
+    "name": "completion-rate-language",
+    "prompt": "Survey completion rate by language, sorted by volume."
+  },
+  {
+    "name": "abandonment-stage",
+    "prompt": "Where users abandon the onboarding survey, broken down by question."
+  },
+  {
+    "name": "csat-vs-tenure",
+    "prompt": "CSAT score against customer tenure in buckets of 0-6, 6-12, 12-24, 24+ months."
+  },
+  {
+    "name": "ticket-volume-day-of-week",
+    "prompt": "Support feedback volume by day of week to find peak load days."
+  },
+  {
+    "name": "feature-vote-stacked",
+    "prompt": "Top voted feature requests across plan tiers, as a stacked bar chart."
+  },
+  {
+    "name": "agent-satisfaction-heatmap",
+    "prompt": "Support agent satisfaction scores per agent, grouped by team, last quarter."
+  },
+  {
+    "name": "trend-multi-metric",
+    "prompt": "Plot CSAT, NPS, and CES on the same time series over the last 6 months so we can compare trajectories."
+  }
+]
