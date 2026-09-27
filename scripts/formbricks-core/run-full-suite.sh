@@ -24,6 +24,7 @@ RUN_DIR="${RUN_DIR:-$SCRIPT_DIR/report/runs/$RUN_ID}"
 K6_DOCKER_IMAGE="${K6_DOCKER_IMAGE:-grafana/k6:2.0.0}"
 
 # shellcheck source=lib/guardrails.sh
+# shellcheck disable=SC1091 -- SCRIPT_DIR resolves the checked-in helper at runtime.
 source "$SCRIPT_DIR/lib/guardrails.sh"
 validate_guardrails "$PROFILE"
 

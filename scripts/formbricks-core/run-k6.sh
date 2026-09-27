@@ -31,6 +31,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 K6_SCRIPT_REL="scripts/formbricks-core/k6/formbricks-core.js"
 
 # shellcheck source=lib/guardrails.sh
+# shellcheck disable=SC1091 -- SCRIPT_DIR resolves the checked-in helper at runtime.
 source "$SCRIPT_DIR/lib/guardrails.sh"
 validate_guardrails "$PROFILE"
 
