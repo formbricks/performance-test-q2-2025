@@ -1,5 +1,6 @@
 import http from "k6/http";
 import { check } from "k6";
+import execution from "k6/execution";
 import { Counter, Trend } from "k6/metrics";
 import { buildSummary } from "./lib/summary.js";
 
@@ -170,7 +171,7 @@ function profileOptions(exec) {
         rate: RATE,
         timeUnit: "1s",
         duration: DURATION || "2m",
-        preAllocatedVUs: Math.max(5, RATE * 2),
+        preAllocatedVUs: Math.min(MAX_VUS, Math.max(5, RATE * 2)),
         maxVUs: MAX_VUS,
       };
     case "load":
@@ -179,7 +180,7 @@ function profileOptions(exec) {
         exec,
         startRate: 1,
         timeUnit: "1s",
-        preAllocatedVUs: Math.max(10, RATE * 2),
+        preAllocatedVUs: Math.min(MAX_VUS, Math.max(10, RATE * 2)),
         maxVUs: MAX_VUS,
         stages: [
           { target: RATE, duration: "1m" },
@@ -193,7 +194,7 @@ function profileOptions(exec) {
         exec,
         startRate: 1,
         timeUnit: "1s",
-        preAllocatedVUs: Math.max(20, RATE * 2),
+        preAllocatedVUs: Math.min(MAX_VUS, Math.max(20, RATE * 2)),
         maxVUs: MAX_VUS,
         stages: [
           { target: Math.max(1, Math.round(RATE * 0.25)), duration: "1m" },
@@ -208,7 +209,7 @@ function profileOptions(exec) {
         exec,
         startRate: 1,
         timeUnit: "1s",
-        preAllocatedVUs: Math.max(20, RATE * 2),
+        preAllocatedVUs: Math.min(MAX_VUS, Math.max(20, RATE * 2)),
         maxVUs: MAX_VUS,
         stages: [
           { target: RATE, duration: "15s" },
@@ -224,7 +225,7 @@ function profileOptions(exec) {
         rate: RATE,
         timeUnit: "1s",
         duration: DURATION || "30m",
-        preAllocatedVUs: Math.max(10, RATE * 2),
+        preAllocatedVUs: Math.min(MAX_VUS, Math.max(10, RATE * 2)),
         maxVUs: MAX_VUS,
       };
     default:
@@ -473,7 +474,7 @@ export function mixedWorkload() {
     surveyLifecycle();
     return;
   }
-  const bucket = (__VU * 13 + __ITER * 37) % 100;
+  const bucket = execution.scenario.iterationInTest % 100;
   if (bucket < 60) publicSurvey();
   else if (bucket < 85) responseWrite();
   else if (bucket < 98) managementRead();

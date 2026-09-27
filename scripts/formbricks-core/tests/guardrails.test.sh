@@ -6,6 +6,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GUARDRAILS="$SCRIPT_DIR/../lib/guardrails.sh"
 
 run_guardrail() {
+  # The child shell intentionally expands its positional parameters.
+  # shellcheck disable=SC2016
   env -i PATH="$PATH" \
     FORMBRICKS_URL="$1" \
     RUN_ID="$2" \

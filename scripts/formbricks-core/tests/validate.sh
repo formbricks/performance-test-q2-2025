@@ -20,7 +20,7 @@ for script in \
 done
 
 if command -v shellcheck >/dev/null 2>&1; then
-  shellcheck \
+  shellcheck -x \
     "$SUITE_DIR"/*.sh \
     "$SUITE_DIR"/collectors/*.sh \
     "$SUITE_DIR"/lib/*.sh \

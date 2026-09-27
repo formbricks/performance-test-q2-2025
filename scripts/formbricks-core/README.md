@@ -16,7 +16,10 @@ using shared Artemis.
 | `management-read` | 1 | API-key auth, authorization, list query, counts, and serialization |
 | `response-write` | 1 | Validation, response transaction, quota evaluation, and pipeline dispatch |
 | `survey-lifecycle` | 3 | Authenticated survey create, read, and delete |
-| `mixed` | ~1.62 | Deterministic 60/25/13/2 blend of public load, response write, management read, and lifecycle |
+| `mixed` | ~1.64 | Deterministic 60/25/13/2 blend of public load, response write, management read, and lifecycle |
+
+Mixed smoke invokes every journey once (seven HTTP requests); steady-state mixed profiles use the
+deterministic blend above and average 1.64 HTTP requests per iteration.
 
 Relevant Formbricks paths are `apps/web/app/s/[surveyId]/page.tsx`, the v1 client environment and
 response route handlers, and the v3 survey route handlers plus `lib/operations.ts`.

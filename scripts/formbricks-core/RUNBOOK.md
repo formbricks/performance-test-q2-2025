@@ -40,16 +40,16 @@ that exact exception and an operator is actively watching absolute memory agains
 
 ## Execution tiers
 
-Every rate below is k6 iterations/s. Mixed traffic averages roughly 1.62 HTTP requests per iteration.
+Every rate below is k6 iterations/s. Mixed traffic averages roughly 1.64 HTTP requests per iteration.
 
 | Tier | Command | Approximate mixed HTTP rate | Expected impact |
 | --- | --- | ---: | --- |
 | Smoke | `./run-full-suite.sh smoke <scenario>` | one bounded iteration | Contract/cleanup only |
-| Baseline | `RATE=1 DURATION=2m ./run-full-suite.sh baseline mixed` | ~1.6 req/s | Low, ~120 iterations |
-| Load | `RATE=5 DURATION=3m ./run-full-suite.sh load mixed` | up to ~8.1 req/s | Moderate, ramp + hold |
-| Stress | `RATE=20 DURATION=2m ./run-full-suite.sh stress mixed` | up to ~32 req/s | High; approval required |
-| Spike | `RATE=30 DURATION=1m ./run-full-suite.sh spike mixed` | up to ~49 req/s | High burst; approval required |
-| Soak | `RATE=3 DURATION=30m ./run-full-suite.sh soak mixed` | ~4.9 req/s | High cumulative writes; approval required |
+| Baseline | `RATE=1 DURATION=2m ./run-full-suite.sh baseline mixed` | ~1.64 req/s | Low, ~120 iterations |
+| Load | `RATE=5 DURATION=3m ./run-full-suite.sh load mixed` | up to ~8.2 req/s | Moderate, ramp + hold |
+| Stress | `RATE=20 DURATION=2m ./run-full-suite.sh stress mixed` | up to ~32.8 req/s | High; approval required |
+| Spike | `RATE=30 DURATION=1m ./run-full-suite.sh spike mixed` | up to ~49.2 req/s | High burst; approval required |
+| Soak | `RATE=3 DURATION=30m ./run-full-suite.sh soak mixed` | ~4.92 req/s | High cumulative writes; approval required |
 
 Stress, spike, and soak require both explicit user approval for the exact traffic/window and
 `CONFIRM_HIGH_IMPACT_PROFILE=I_APPROVE_SHARED_ARTEMIS_LOAD`. Their static validation does not require

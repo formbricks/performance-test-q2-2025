@@ -101,6 +101,12 @@ trap on_exit EXIT INT TERM
 suite_start_iso="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 printf '%s\n' "$suite_start_iso" >"$RUN_DIR/suite-start.txt"
 
+if command -v k6 >/dev/null 2>&1; then
+  k6_version="$(k6 version)"
+else
+  k6_version="docker:$K6_DOCKER_IMAGE"
+fi
+
 {
   echo "run_id=$RUN_ID"
   echo "scenario=$SCENARIO"
@@ -110,7 +116,7 @@ printf '%s\n' "$suite_start_iso" >"$RUN_DIR/suite-start.txt"
   echo "configured_duration=${DURATION:-profile-default}"
   echo "configured_max_vus=${MAX_VUS:-$(default_max_vus_for_profile "$PROFILE")}"
   echo "git_sha=$(git -C "$REPO_ROOT" rev-parse HEAD)"
-  echo "k6_version=$(k6 version 2>/dev/null || echo docker:$K6_DOCKER_IMAGE)"
+  echo "k6_version=$k6_version"
   echo "kubectl_context=${KUBECTL_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo unavailable)}"
 } >"$RUN_DIR/metadata.txt"
 

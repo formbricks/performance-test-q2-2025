@@ -44,20 +44,40 @@ calls as limitations; never treat a missing signal as zero.
 | App memory | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
 | Restarts / warning events | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
 
-## Findings
+## Confirmed findings
 
-| Priority | Confidence | Evidence | Affected source / infrastructure | Proposed remediation | Validation |
+| Priority | Finding | Exact evidence | Affected source / infrastructure | Proposed remediation | Validation |
 | --- | --- | --- | --- | --- | --- |
-| _TBD_ | confirmed / probable / hypothesis | k6 + trace/log/resource evidence | exact path or component | bounded change | rerunnable command/signal |
+| _TBD_ | _TBD_ | k6 + trace/log/metric/resource evidence | exact path or component | bounded change | rerunnable command/signal |
+
+## Hypotheses
+
+| Confidence | Hypothesis | Supporting signal | Missing proof | Next query or rerun |
+| --- | --- | --- | --- | --- |
+| low / medium / high | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+
+## Remediation priorities
+
+| Priority | Change | Expected effect | Verification signal | Owner / ticket |
+| --- | --- | --- | --- | --- |
+| _P0-P3_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
 
 ## Reproduction
 
 Record the exact command with secret values removed, the run artifact directory, non-secret overrides,
 and both suite and Artemis revisions.
 
-## Limitations and open gaps
+## Limitations
 
-- _Unexecuted profiles, missing credentials, missing signals, sampling effects, or shared-environment noise._
+- _Test-model, fixture, shared-environment, or sampling limitation._
+
+## Unavailable signals
+
+- _Signal/tool, exact attempted query, failure mode, and fallback evidence._
+
+## Open gaps
+
+- _Unexecuted profiles, missing credentials, or work requiring separate approval._
 
 ## Abort and rollback notes
 
