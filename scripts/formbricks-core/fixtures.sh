@@ -35,9 +35,26 @@ EOF
 create_fixture() {
   local payload="$RUN_DIR/fixture-create-payload.json"
   local response="$RUN_DIR/fixture-create-response.json"
+  local collision_response="$RUN_DIR/fixture-collision-check.json"
   local fixture="$RUN_DIR/fixture.json"
   local question_id="perf-question"
   local survey_id
+
+  if ! api_curl \
+    --get \
+    --data-urlencode "workspaceId=$FORMBRICKS_WORKSPACE_ID" \
+    --data-urlencode "limit=250" \
+    --data-urlencode "includeTotalCount=false" \
+    --data-urlencode "filter[name][contains]=ENG-3309 $RUN_ID" \
+    --output "$collision_response" \
+    "$BASE_URL/api/v3/surveys"; then
+    echo "unable to verify that RUN_ID is unused" >&2
+    return 1
+  fi
+  if [[ "$(jq '.data | length' "$collision_response")" != "0" ]]; then
+    echo "RUN_ID already owns survey fixtures; choose a new RUN_ID or run scoped cleanup" >&2
+    return 2
+  fi
 
   jq -n \
     --arg workspace_id "$FORMBRICKS_WORKSPACE_ID" \
@@ -88,15 +105,22 @@ create_fixture() {
 cleanup_fixtures() {
   local fixture="$RUN_DIR/fixture.json"
   local list_response="$RUN_DIR/cleanup-list-response.json"
+  local verify_response="$RUN_DIR/cleanup-verify-response.json"
   local ids_file="$RUN_DIR/cleanup-survey-ids.txt"
   local cleanup_log="$RUN_DIR/cleanup.log"
   local failed=0
+  local expected_prefix="ENG-3309 $RUN_ID "
 
   : >"$ids_file"
   : >"$cleanup_log"
 
   if [[ -f "$fixture" ]]; then
-    jq -r '.survey_id // empty' "$fixture" >>"$ids_file"
+    if [[ "$(jq -r '.run_id // empty' "$fixture")" != "$RUN_ID" ]]; then
+      echo "fixture ownership does not match RUN_ID; refusing fixture deletion" | tee -a "$cleanup_log" >&2
+      failed=1
+    else
+      jq -r '.survey_id // empty' "$fixture" >>"$ids_file"
+    fi
   fi
 
   if api_curl \
@@ -107,7 +131,14 @@ cleanup_fixtures() {
     --data-urlencode "filter[name][contains]=ENG-3309 $RUN_ID" \
     --output "$list_response" \
     "$BASE_URL/api/v3/surveys"; then
-    jq -r '.data[]?.id // empty' "$list_response" >>"$ids_file"
+    if ! jq -e --arg prefix "$expected_prefix" \
+      'all(.data[]?; (.name | (type == "string" and startswith($prefix))))' \
+      "$list_response" >/dev/null; then
+      echo "cleanup search returned a survey outside the exact run prefix; refusing deletion" | tee -a "$cleanup_log" >&2
+      failed=1
+    else
+      jq -r '.data[]?.id // empty' "$list_response" >>"$ids_file"
+    fi
   else
     echo "unable to list interrupted lifecycle fixtures" | tee -a "$cleanup_log" >&2
     failed=1
@@ -126,6 +157,23 @@ cleanup_fixtures() {
       failed=1
     fi
   done <"$ids_file"
+
+  if api_curl \
+    --get \
+    --data-urlencode "workspaceId=$FORMBRICKS_WORKSPACE_ID" \
+    --data-urlencode "limit=250" \
+    --data-urlencode "includeTotalCount=false" \
+    --data-urlencode "filter[name][contains]=ENG-3309 $RUN_ID" \
+    --output "$verify_response" \
+    "$BASE_URL/api/v3/surveys"; then
+    if [[ "$(jq '.data | length' "$verify_response")" != "0" ]]; then
+      echo "cleanup verification found remaining run-owned surveys" | tee -a "$cleanup_log" >&2
+      failed=1
+    fi
+  else
+    echo "unable to verify cleanup" | tee -a "$cleanup_log" >&2
+    failed=1
+  fi
 
   if (( failed == 0 )); then
     echo "complete" >"$RUN_DIR/cleanup-status.txt"

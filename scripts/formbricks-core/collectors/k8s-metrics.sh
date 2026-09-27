@@ -7,6 +7,7 @@ INTERVAL="${INTERVAL:-5}"
 OUT="${OUT:?OUT path is required}"
 EVENTS_OUT="${EVENTS_OUT:-${OUT%.csv}-events.txt}"
 POD_SELECTOR="${POD_SELECTOR:-}"
+KUBECTL_CONTEXT="${KUBECTL_CONTEXT:-}"
 
 mkdir -p "$(dirname "$OUT")"
 echo "ts_utc,pod,container,cpu_milli,memory_mi,restarts,phase" >"$OUT"
@@ -15,9 +16,13 @@ selector_args=()
 if [[ -n "$POD_SELECTOR" ]]; then
   selector_args=(-l "$POD_SELECTOR")
 fi
+kubectl_args=()
+if [[ -n "$KUBECTL_CONTEXT" ]]; then
+  kubectl_args+=(--context "$KUBECTL_CONTEXT")
+fi
 
 cleanup() {
-  kubectl -n "$NAMESPACE" get events --sort-by=.lastTimestamp >"$EVENTS_OUT" 2>&1 || true
+  kubectl "${kubectl_args[@]}" -n "$NAMESPACE" get events --sort-by=.lastTimestamp >"$EVENTS_OUT" 2>&1 || true
 }
 trap cleanup EXIT
 
@@ -26,11 +31,11 @@ while true; do
   pods_file="$(mktemp)"
   top_file="$(mktemp)"
 
-  kubectl -n "$NAMESPACE" get pods "${selector_args[@]}" \
+  kubectl "${kubectl_args[@]}" -n "$NAMESPACE" get pods "${selector_args[@]}" \
     -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.containerStatuses[0].restartCount}{"\t"}{.status.phase}{"\n"}{end}' \
     >"$pods_file" 2>/dev/null || true
 
-  if kubectl -n "$NAMESPACE" top pods --containers --no-headers "${selector_args[@]}" >"$top_file" 2>/dev/null; then
+  if kubectl "${kubectl_args[@]}" -n "$NAMESPACE" top pods --containers --no-headers "${selector_args[@]}" >"$top_file" 2>/dev/null; then
     awk -v ts="$ts" '
       BEGIN { FS = "[ \t]+"; OFS = "," }
       function cpu_milli(v, n) {
