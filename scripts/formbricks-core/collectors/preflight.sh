@@ -9,6 +9,7 @@ APP_DEPLOYMENT="${APP_DEPLOYMENT:-formbricks}"
 POD_SELECTOR="${POD_SELECTOR:-app.kubernetes.io/instance=formbricks-artemis,app.kubernetes.io/component=formbricks}"
 MAX_HEALTH_SECONDS="${MAX_HEALTH_SECONDS:-5}"
 MAX_HPA_MEMORY_UTILIZATION="${MAX_HPA_MEMORY_UTILIZATION:-85}"
+KUBECTL_REQUEST_TIMEOUT="${KUBECTL_REQUEST_TIMEOUT:-10s}"
 LIMITED_HPA_CONFIRMATION="I_ACCEPT_NO_AUTOSCALING_HEADROOM"
 
 case "$PROFILE" in
@@ -62,6 +63,7 @@ kubectl_args=()
 if [[ -n "${KUBECTL_CONTEXT:-}" ]]; then
   kubectl_args+=(--context "$KUBECTL_CONTEXT")
 fi
+kubectl_args+=(--request-timeout "$KUBECTL_REQUEST_TIMEOUT")
 
 deployment_json="$temp_dir/deployment.json"
 pods_json="$temp_dir/pods.json"

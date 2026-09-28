@@ -8,6 +8,7 @@ OUT="${OUT:?OUT path is required}"
 EVENTS_OUT="${EVENTS_OUT:-${OUT%.csv}-events.txt}"
 POD_SELECTOR="${POD_SELECTOR:-}"
 KUBECTL_CONTEXT="${KUBECTL_CONTEXT:-}"
+KUBECTL_REQUEST_TIMEOUT="${KUBECTL_REQUEST_TIMEOUT:-10s}"
 
 mkdir -p "$(dirname "$OUT")"
 echo "ts_utc,pod,container,cpu_milli,memory_mi,restarts,phase" >"$OUT"
@@ -20,6 +21,7 @@ kubectl_args=()
 if [[ -n "$KUBECTL_CONTEXT" ]]; then
   kubectl_args+=(--context "$KUBECTL_CONTEXT")
 fi
+kubectl_args+=(--request-timeout "$KUBECTL_REQUEST_TIMEOUT")
 
 cleanup() {
   kubectl "${kubectl_args[@]}" -n "$NAMESPACE" get events --sort-by=.lastTimestamp >"$EVENTS_OUT" 2>&1 || true
