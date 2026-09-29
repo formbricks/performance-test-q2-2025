@@ -10,6 +10,7 @@ POD_SELECTOR="${POD_SELECTOR:-app.kubernetes.io/instance=formbricks-artemis,app.
 MAX_HEALTH_SECONDS="${MAX_HEALTH_SECONDS:-5}"
 MAX_HPA_MEMORY_UTILIZATION="${MAX_HPA_MEMORY_UTILIZATION:-85}"
 KUBECTL_REQUEST_TIMEOUT="${KUBECTL_REQUEST_TIMEOUT:-10s}"
+RESTART_BASELINE_FILE="${RESTART_BASELINE_FILE:-}"
 LIMITED_HPA_CONFIRMATION="I_ACCEPT_NO_AUTOSCALING_HEADROOM"
 
 case "$PROFILE" in
@@ -78,16 +79,34 @@ available_replicas="$(jq -r '.status.availableReplicas // 0' "$deployment_json")
 pod_count="$(jq -r '.items | length' "$pods_json")"
 unready_pods="$(jq -r '[.items[] | select(any(.status.containerStatuses[]?; .ready != true))] | length' "$pods_json")"
 restart_count="$(jq -r '[.items[].status.containerStatuses[]?.restartCount] | add // 0' "$pods_json")"
-printf '%s kubernetes deployment=%s desired=%s ready=%s available=%s pods=%s unready=%s restarts=%s\n' \
+restart_baseline=0
+if [[ -n "$RESTART_BASELINE_FILE" ]]; then
+  if [[ -f "$RESTART_BASELINE_FILE" ]]; then
+    restart_baseline="$(<"$RESTART_BASELINE_FILE")"
+    if [[ ! "$restart_baseline" =~ ^[0-9]+$ ]]; then
+      printf 'preflight: invalid restart baseline in %s\n' "$RESTART_BASELINE_FILE" >&2
+      exit 1
+    fi
+  else
+    printf '%s\n' "$restart_count" >"$RESTART_BASELINE_FILE"
+    restart_baseline="$restart_count"
+  fi
+fi
+printf '%s kubernetes deployment=%s desired=%s ready=%s available=%s pods=%s unready=%s restarts=%s restart_baseline=%s\n' \
   "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$APP_DEPLOYMENT" "$desired_replicas" "$ready_replicas" \
-  "$available_replicas" "$pod_count" "$unready_pods" "$restart_count"
+  "$available_replicas" "$pod_count" "$unready_pods" "$restart_count" "$restart_baseline"
 
 if (( desired_replicas < 1 || ready_replicas != desired_replicas || available_replicas != desired_replicas )); then
   printf 'preflight: application deployment is not fully available\n' >&2
   exit 1
 fi
-if (( pod_count != desired_replicas || unready_pods != 0 || restart_count != 0 )); then
-  printf 'preflight: application pods are unready or have restarted\n' >&2
+if (( pod_count != desired_replicas || unready_pods != 0 )); then
+  printf 'preflight: application pods are unready\n' >&2
+  exit 1
+fi
+if (( restart_count > restart_baseline )); then
+  printf 'preflight: application restart count increased above the run baseline (%s > %s)\n' \
+    "$restart_count" "$restart_baseline" >&2
   exit 1
 fi
 

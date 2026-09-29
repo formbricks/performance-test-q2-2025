@@ -40,8 +40,9 @@ stage shown below.
 
 The suite has hard ceilings of 50 iterations/s, 200 VUs, and profile-specific duration limits.
 Production hosts are always rejected. Artemis is the only remote target accepted without a deliberate
-non-production override. A preflight and continuous monitor stop runs on failed application/database/
-cache health, unready or restarted pods, high memory, or unapproved HPA saturation.
+non-production override. A preflight records the existing pod restart count, and the continuous monitor
+stops runs on failed application/database/cache health, unready pods, new restarts, high memory, or
+unapproved HPA saturation.
 
 ## Thresholds and aborts
 
@@ -88,7 +89,7 @@ Each run writes `report/runs/<run-id>/`:
 | --- | --- |
 | `metadata.txt`, `start.txt`, `end.txt` | Target, commit, profile, exact workload UTC window |
 | `suite-start.txt`, `suite-end.txt` | Full fixture, collection, workload, and cleanup window |
-| `preflight.txt`, `health-monitor.log` | Health, readiness, restart, and HPA abort evidence |
+| `preflight.txt`, `restart-baseline.txt`, `health-monitor.log` | Health, readiness, restart-delta, and HPA abort evidence |
 | `k6-summary.json`, `k6-summary.md` | Machine/human throughput, p50/p90/p95/p99, errors, checks |
 | `k6-raw-summary.json`, `k6.log` | Raw k6 metrics and diagnostic output |
 | `fixture*.json`, `cleanup*.txt`, `cleanup.log` | Synthetic ownership and verified deletion |

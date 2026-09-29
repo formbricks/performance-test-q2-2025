@@ -121,7 +121,9 @@ fi
   echo "kubectl_context=${KUBECTL_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo unavailable)}"
 } >"$RUN_DIR/metadata.txt"
 
-if ! "$SCRIPT_DIR/collectors/preflight.sh" "$PROFILE" >"$RUN_DIR/preflight.txt" 2>&1; then
+RESTART_BASELINE_FILE="$RUN_DIR/restart-baseline.txt"
+if ! RESTART_BASELINE_FILE="$RESTART_BASELINE_FILE" \
+  "$SCRIPT_DIR/collectors/preflight.sh" "$PROFILE" >"$RUN_DIR/preflight.txt" 2>&1; then
   sed -n '1,120p' "$RUN_DIR/preflight.txt" >&2
   exit 1
 fi
@@ -172,6 +174,7 @@ PROFILE="$PROFILE" \
   K6_PID="$k6_pid" \
   OUT="$RUN_DIR/health-monitor.log" \
   ABORT_FILE="$RUN_DIR/health-abort.txt" \
+  RESTART_BASELINE_FILE="$RESTART_BASELINE_FILE" \
   INTERVAL="${HEALTH_INTERVAL:-10}" \
   "$SCRIPT_DIR/collectors/health-monitor.sh" &
 monitor_pid=$!

@@ -26,8 +26,8 @@ presence—not values—of the required variables. `FORMBRICKS_API_KEY` and cook
 1. Confirm the suite commit and a clean checkout.
 2. Verify `GET /api/v2/health` is HTTP 200 with healthy database/cache status and record latency.
 3. Confirm Argo reports `formbricks-artemis` Synced and Healthy.
-4. Record ready/desired replicas, HPA current/target, requests/limits, restarts, recent warning events,
-   and `kubectl top` for application pods.
+4. Record ready/desired replicas, HPA current/target, requests/limits, the restart baseline, recent
+   warning events, and `kubectl top` for application pods.
 5. With SigNoz, confirm `formbricks-artemis` has recent trace activity, then record its top operations
    and a pre-run error/latency window.
 6. Stop before load if pods are unready, restarting, OOMing, probe-failing, at a hard resource limit,
