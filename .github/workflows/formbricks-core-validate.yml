@@ -2,9 +2,9 @@ name: Formbricks core suite validation
 
 on:
   pull_request:
-    paths:
-      - ".github/workflows/formbricks-core-validate.yml"
-      - "scripts/formbricks-core/**"
+  merge_group:
+    types: [checks_requested]
+    branches: [main]
   push:
     branches: [main]
     paths:
