@@ -33,11 +33,12 @@ while true; do
   pods_file="$(mktemp)"
   top_file="$(mktemp)"
 
-  kubectl "${kubectl_args[@]}" -n "$NAMESPACE" get pods "${selector_args[@]}" \
+  kubectl "${kubectl_args[@]}" -n "$NAMESPACE" get pods ${selector_args[@]+"${selector_args[@]}"} \
     -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.status.containerStatuses[0].restartCount}{"\t"}{.status.phase}{"\n"}{end}' \
     >"$pods_file" 2>/dev/null || true
 
-  if kubectl "${kubectl_args[@]}" -n "$NAMESPACE" top pods --containers --no-headers "${selector_args[@]}" >"$top_file" 2>/dev/null; then
+  if kubectl "${kubectl_args[@]}" -n "$NAMESPACE" top pods --containers --no-headers \
+    ${selector_args[@]+"${selector_args[@]}"} >"$top_file" 2>/dev/null; then
     awk -v ts="$ts" '
       BEGIN { FS = "[ \t]+"; OFS = "," }
       function cpu_milli(v, n) {
