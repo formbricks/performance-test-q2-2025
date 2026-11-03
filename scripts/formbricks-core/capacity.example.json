@@ -1,0 +1,11 @@
+{
+  "revision": "REPLACE_WITH_FULL_COMMITTED_SUITE_SHA",
+  "gateway_evidence": "REPLACE: recent Envoy logs proving these four source IPs and the active 100/min policy",
+  "fixture_cardinality": { "synthetic_surveys_per_worker": 1, "workspace_existing_surveys": "RECORD", "workspace_existing_responses": "RECORD" },
+  "workers": [
+    { "host": "perf-1", "checkout": "/srv/performance-test", "env_file": "/run/secrets/artemis-perf.env", "envoy_source_ip": "192.0.2.1" },
+    { "host": "perf-2", "checkout": "/srv/performance-test", "env_file": "/run/secrets/artemis-perf.env", "envoy_source_ip": "192.0.2.2" },
+    { "host": "perf-3", "checkout": "/srv/performance-test", "env_file": "/run/secrets/artemis-perf.env", "envoy_source_ip": "192.0.2.3" },
+    { "host": "perf-4", "checkout": "/srv/performance-test", "env_file": "/run/secrets/artemis-perf.env", "envoy_source_ip": "192.0.2.4" }
+  ]
+}

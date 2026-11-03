@@ -3,6 +3,7 @@ import { check } from "k6";
 import execution from "k6/execution";
 import { Counter, Trend } from "k6/metrics";
 import { buildSummary } from "./lib/summary.js";
+import { capacityConfig, mixedBucket } from "./lib/capacity.js";
 
 const ARTEMIS_URL = "https://artemis.app.formbricks.com";
 const NON_ARTEMIS_CONFIRMATION = "I_UNDERSTAND_NON_PRODUCTION_ONLY";
@@ -144,6 +145,9 @@ function validateConfiguration() {
 }
 
 validateConfiguration();
+const capacity = capacityConfig(__ENV, PROFILE, SCENARIO, RATE);
+const http429s = new Counter("http_429s");
+const journeysStarted = new Counter("journeys_started");
 
 const unexpectedResponses = new Counter("unexpected_responses");
 const publicEnvironmentDuration = new Trend("public_environment_duration", true);
@@ -179,7 +183,7 @@ function profileOptions(exec) {
         executor: "ramping-arrival-rate",
         exec,
         startRate: 1,
-        timeUnit: "1s",
+        timeUnit: capacity.timeUnit,
         preAllocatedVUs: Math.min(MAX_VUS, Math.max(10, RATE * 2)),
         maxVUs: MAX_VUS,
         stages: [
@@ -271,6 +275,7 @@ function latencyThresholds() {
 function buildThresholds() {
   const abortDelay = PROFILE === "smoke" ? "0s" : "30s";
   const thresholds = {
+    http_429s: ["count==0"],
     checks: ["rate>=0.99"],
     http_req_failed: [
       "rate<0.01",
@@ -307,6 +312,7 @@ function publicParams(endpoint, accept = "application/json") {
   return {
     headers: {
       Accept: accept,
+      "Accept-Encoding": "gzip",
       "User-Agent": `formbricks-k6/${RUN_ID}`,
       "X-Formbricks-Performance-Run": RUN_ID,
     },
@@ -331,6 +337,8 @@ function parseJSON(response) {
 }
 
 function recordUnexpected(response, expectedStatuses, endpoint) {
+  // Client-side classification; corroborate gateway provenance with Envoy logs.
+  http429s.add(response.status === 429 ? 1 : 0, { endpoint });
   if (!expectedStatuses.includes(response.status)) {
     unexpectedResponses.add(1, { endpoint, status: String(response.status) });
   }
@@ -467,6 +475,7 @@ export function surveyLifecycle() {
 }
 
 export function mixedWorkload() {
+  journeysStarted.add(1);
   if (PROFILE === "smoke") {
     publicSurvey();
     responseWrite();
@@ -474,7 +483,7 @@ export function mixedWorkload() {
     surveyLifecycle();
     return;
   }
-  const bucket = execution.scenario.iterationInTest % 100;
+  const bucket = mixedBucket(execution.scenario.iterationInTest, capacity.index);
   if (bucket < 60) publicSurvey();
   else if (bucket < 85) responseWrite();
   else if (bucket < 98) managementRead();

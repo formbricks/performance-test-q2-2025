@@ -44,6 +44,10 @@ done
 if [[ -n "$RAW_JSON_OUT" ]]; then
   extra_args+=(--summary-export "$RAW_JSON_OUT")
 fi
+if [[ "${TEST_MODE:-standard}" == capacity ]]; then
+  : "${JSON_OUT:?capacity requires an output directory}"
+  extra_args+=(--out "json=$(dirname "$JSON_OUT")/samples.jsonl")
+fi
 
 echo "== k6 run_id=$RUN_ID scenario=$SCENARIO profile=$PROFILE =="
 
@@ -80,6 +84,9 @@ for key in FORMBRICKS_URL FORMBRICKS_WORKSPACE_ID FORMBRICKS_API_KEY \
     docker_args+=(-e "$key")
   fi
 done
+for key in TEST_MODE WORKER_COUNT WORKER_INDEX CAPACITY_COORDINATED; do
+  if [[ -n "${!key:-}" ]]; then docker_args+=(-e "$key"); fi
+done
 docker_args+=(-e "SCENARIO=$SCENARIO" -e "PROFILE=$PROFILE" -e "RUN_ID=$RUN_ID")
 if [[ -n "$SUMMARY_MD" ]]; then
   docker_args+=(-e "SUMMARY_MD=/workspace/${SUMMARY_MD#"$REPO_ROOT/"}")
@@ -92,5 +99,9 @@ if [[ -n "$RAW_JSON_OUT" ]]; then
   docker_args+=(--summary-export "/workspace/${RAW_JSON_OUT#"$REPO_ROOT/"}")
 fi
 docker_args+=("/workspace/$K6_SCRIPT_REL")
+if [[ "${TEST_MODE:-standard}" == capacity ]]; then
+  echo "capacity mode requires native k6 (remote cancellation must stop the generator)" >&2
+  exit 1
+fi
 
 exec docker "${docker_args[@]}"

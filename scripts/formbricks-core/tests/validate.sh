@@ -28,6 +28,7 @@ if command -v shellcheck >/dev/null 2>&1; then
 fi
 
 node --test "$SCRIPT_DIR"/*.test.mjs
+PYTHONDONTWRITEBYTECODE=1 python3 "$SCRIPT_DIR/capacity_test.py"
 "$SCRIPT_DIR/guardrails.test.sh"
 
 export FORMBRICKS_URL="http://127.0.0.1:18080"
@@ -37,6 +38,23 @@ export FORMBRICKS_SURVEY_ID="survey000000000000000001"
 export FORMBRICKS_QUESTION_ID="perf-question"
 export RUN_ID="eng3309-inspect"
 export CONFIRM_HIGH_IMPACT_PROFILE="I_APPROVE_SHARED_ARTEMIS_LOAD"
+
+TEST_MODE=capacity WORKER_COUNT=4 WORKER_INDEX=0 CAPACITY_COORDINATED=1 \
+  PROFILE=load SCENARIO=mixed RATE=5 \
+  k6 inspect --include-system-env-vars "$SUITE_DIR/k6/formbricks-core.js" >/dev/null
+if TEST_MODE=capacity WORKER_COUNT=4 WORKER_INDEX=0 CAPACITY_COORDINATED=1 \
+  PROFILE=load SCENARIO=mixed RATE=6 \
+  k6 inspect --include-system-env-vars "$SUITE_DIR/k6/formbricks-core.js" >/dev/null 2>&1; then
+  echo "capacity budget guard failed" >&2
+  exit 1
+fi
+if k6 inspect --include-system-env-vars "$SUITE_DIR/k6/policy.js" >/dev/null 2>&1; then
+  echo "policy approval guard failed" >&2
+  exit 1
+fi
+CONFIRM_POLICY_TEST=I_APPROVE_ARTEMIS_POLICY_TEST \
+  FORMBRICKS_URL=https://artemis.app.formbricks.com \
+  k6 inspect --include-system-env-vars "$SUITE_DIR/k6/policy.js" >/dev/null
 
 for profile in smoke baseline load stress spike soak; do
   for scenario in public-read public-survey management-read response-write survey-lifecycle mixed; do
@@ -75,6 +93,28 @@ for scenario in public-read public-survey management-read response-write survey-
   export RUN_DIR="$tmp_dir/$scenario"
   "$SUITE_DIR/run-full-suite.sh" smoke "$scenario" >/dev/null
   jq -e '.result == "PASS"' "$RUN_DIR/k6-summary.json" >/dev/null
+done
+
+capacity_pids=()
+for worker in 0 1 2 3; do
+  TEST_MODE=capacity WORKER_COUNT=4 WORKER_INDEX="$worker" CAPACITY_COORDINATED=1 \
+    PROFILE=load SCENARIO=mixed RATE=5 RUN_ID="eng3309-local-capacity-w$worker" \
+    SUMMARY_JSON="$tmp_dir/capacity-$worker.json" \
+    k6 run --out "json=$tmp_dir/capacity-$worker.jsonl" \
+      "$SCRIPT_DIR/capacity-local.js" >"$tmp_dir/capacity-$worker.log" 2>&1 &
+  capacity_pids+=("$!")
+done
+capacity_failed=0
+for pid in "${capacity_pids[@]}"; do
+  wait "$pid" || capacity_failed=1
+done
+if (( capacity_failed )); then
+  for worker in 0 1 2 3; do tail -40 "$tmp_dir/capacity-$worker.log"; done
+  exit 1
+fi
+for worker in 0 1 2 3; do
+  jq -e '.result == "PASS"' "$tmp_dir/capacity-$worker.json" >/dev/null
+  [[ -s "$tmp_dir/capacity-$worker.jsonl" ]]
 done
 
 git -C "$REPO_ROOT" diff --check

@@ -112,6 +112,10 @@ fi
   echo "run_id=$RUN_ID"
   echo "scenario=$SCENARIO"
   echo "profile=$PROFILE"
+  echo "test_mode=${TEST_MODE:-standard}"
+  echo "worker_index=${WORKER_INDEX:-0}"
+  echo "worker_count=${WORKER_COUNT:-1}"
+  echo "accept_encoding=gzip"
   echo "formbricks_url=${FORMBRICKS_URL%/}"
   echo "configured_rate=${RATE:-$(default_rate_for_profile "$PROFILE")}"
   echo "configured_duration=${DURATION:-profile-default}"
@@ -157,6 +161,11 @@ else
 fi
 
 sleep "${PRE_RUN_SETTLE_SECONDS:-2}"
+if [[ "${TEST_MODE:-standard}" == capacity ]]; then
+  echo "CAPACITY_READY"
+  IFS= read -r capacity_start
+  [[ "$capacity_start" == GO ]] || exit 1
+fi
 if [[ "$SCENARIO" == "survey-lifecycle" ]]; then
   cleanup_armed=true
 fi

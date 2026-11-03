@@ -112,3 +112,8 @@ mock-server smoke runs for every journey. It never contacts Artemis.
 The `Formbricks core suite validation` GitHub workflow runs the same offline command for relevant pull
 requests and `main` pushes with read-only permissions. There is intentionally no scheduled or CI-based
 Artemis workload; shared-environment runs stay human-supervised.
+
+## Separate gateway-policy and backend-capacity testing
+
+See [CAPACITY.md](CAPACITY.md) for the supervised multi-client capacity profile,
+separate policy probe, worker setup, safety gates and evidence requirements.
