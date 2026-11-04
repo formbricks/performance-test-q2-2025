@@ -1,0 +1,6 @@
+report/runs/**
+!report/runs/.gitkeep
+.env
+.env.*
+config.env
+config.local.env
